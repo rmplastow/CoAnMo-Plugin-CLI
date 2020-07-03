@@ -1,0 +1,30 @@
+body {
+  background: #131;
+  color: #696;
+  font: 10px/1.5 Arial, sans-serif;
+}
+h2 {
+  color: #696;
+}
+.CoAnMoPluginCliV1.stdin {
+  border: 2px solid transparent;
+  transition: border-color 0.5s;
+}
+.CoAnMoPluginCliV1.stdin:focus {
+  border-color: #fff6;
+}
+.CoAnMoPluginCliV1.stdout {
+  height: 200px;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+.CoAnMoPluginCliV1.stdin,
+.CoAnMoPluginCliV1.stdout {
+  width: 300px;
+  padding: 10px;
+  border-radius: 6px;
+  box-sizing: border-box;
+  background: #0009;
+  color: #eee;
+  font: 12px/18px Monaco, monospace;
+}
