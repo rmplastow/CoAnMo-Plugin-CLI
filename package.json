@@ -2,7 +2,7 @@
   "name": "coanmo-plugin-cli-v1",
   "version": "1.0.0",
   "description": "A simple command line interface for MultiService CoAnMo’s",
-  "main": "index.html",
+  "main": "src/CoAnMoPluginCliV1.ts",
   "scripts": {
     "start": "parcel index.html --open",
     "build": "parcel build index.html"
