@@ -2,10 +2,10 @@
   "name": "coanmo-plugin-cli",
   "version": "1.0.1",
   "description": "A simple command line interface for MultiService CoAnMo’s",
-  "main": "dist/example-usage.079f47fe.js",
+  "main": "dist/CoAnMoPluginCliV1.js",
   "scripts": {
     "start": "parcel index.html --open",
-    "build": "parcel build index.html"
+    "build": "rm -rf dist && parcel build index.html && tsc src/CoAnMoPluginCliV1 --outDir dist"
   },
   "dependencies": {},
   "devDependencies": {

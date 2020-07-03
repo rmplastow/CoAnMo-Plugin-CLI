@@ -40,7 +40,7 @@ export class CoAnMoPluginCliV1 {
   run(command: string) {
     if (!this.$stdin) return;
     const [actionName, ...args] = command.split(" ").map(part => part.trim());
-    const action = this.actions.find(actn => actn.name === actionName);
+    const [action] = this.actions.filter(actn => actn.name === actionName);
     if (!action) return this.log(`> No such action '${actionName}'`);
     this.log(`> ${this.$stdin.value}`);
     this.$stdin.value = "";
