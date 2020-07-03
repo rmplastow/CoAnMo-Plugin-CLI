@@ -12,5 +12,10 @@
     "parcel-bundler": "^1.6.1",
     "typescript": "^3.9.6"
   },
-  "keywords": []
+  "keywords": [],
+  "homepage": "https://codesandbox.io/s/coanmo-plugin-cli-v1-tq6jb",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rmplastow/coanmo-plugin-cli-v1.git"
+  }
 }
