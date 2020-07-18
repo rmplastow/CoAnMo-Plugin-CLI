@@ -1,14 +1,23 @@
-export interface Action {
+export interface ActionMetaI {
+  actions: ActionI[];
   name: string;
-  fn: () => string;
+  version: string;
+}
+
+export interface ActionI {
+  name: string;
+  summary: string;
+  fn: (args: string[], meta: ActionMetaI) => string;
 }
 
 export class CoAnMoPluginCliV1 {
   private $stdin: HTMLInputElement | null;
   private $stdout: HTMLElement | null;
-  private actions: Action[] = [];
+  private actions: ActionI[] = [];
 
   constructor(
+    private name: string,
+    private version: string,
     stdinSelector: string,
     stdoutSelector: string,
     doc: HTMLDocument
@@ -23,7 +32,7 @@ export class CoAnMoPluginCliV1 {
       });
   }
 
-  addActions(actions: Action[]) {
+  addActions(actions: ActionI[]) {
     actions.forEach(action => this.actions.push(action));
   }
 
@@ -39,11 +48,19 @@ export class CoAnMoPluginCliV1 {
 
   run(command: string) {
     if (!this.$stdin) return;
-    const [actionName, ...args] = command.split(" ").map(part => part.trim());
-    const [action] = this.actions.filter(actn => actn.name === actionName);
-    if (!action) return this.log(`> No such action '${actionName}'`);
+    const [actionName, ...args] = command.trim().split(/\s+/);
+    const actionNameLc = actionName.toLowerCase(); // because, iPad keyboard
+    const action = this.actions.find(actn => actn.name === actionNameLc);
+    if (!action)
+      return this.log(`> No such action '${actionNameLc}' - try 'help'`);
     this.log(`> ${this.$stdin.value}`);
     this.$stdin.value = "";
-    this.log(action.fn());
+    this.log(
+      action.fn(args, {
+        actions: this.actions,
+        name: this.name,
+        version: this.version
+      })
+    );
   }
 }

@@ -1,7 +1,7 @@
 {
   "name": "coanmo-plugin-cli",
-  "version": "1.0.2",
-  "description": "A simple command line interface for MultiService CoAnMo’s",
+  "version": "1.0.3",
+  "description": "A simple command line interface for MultArcService CoAnMo’s",
   "main": "dist/CoAnMoPluginCliV1.js",
   "scripts": {
     "start": "parcel index.html --open",
@@ -13,7 +13,7 @@
     "typescript": "^3.9.6"
   },
   "keywords": [],
-  "homepage": "https://codesandbox.io/s/coanmo-plugin-cli-v1-tq6jb",
+  "homepage": "https://codesandbox.io/s/coanmo-plugin-cli-v1-7hnxq",
   "repository": {
     "type": "git",
     "url": "https://github.com/rmplastow/coanmo-plugin-cli-v1.git"
