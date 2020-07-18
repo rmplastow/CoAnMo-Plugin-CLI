@@ -1,8 +1,8 @@
 import { ActionI, ActionMetaI, CoAnMoPluginCliV1 } from "./CoAnMoPluginCliV1";
 
 const cli = new CoAnMoPluginCliV1(
-  "ExampleCoAnMo",
-  "1.2.3",
+  "CoAnMoPluginCliV1",
+  "1.0.10",
   ".CoAnMoPluginCliV1.stdin",
   ".CoAnMoPluginCliV1.stdout",
   document

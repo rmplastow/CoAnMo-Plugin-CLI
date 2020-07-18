@@ -56,8 +56,8 @@ export class CoAnMoPluginCliV1 {
     }
     const action = this.actions.find(actn => actn.name === actionNameLc);
     if (!action)
-      return this.log(`> No such action '${actionNameLc}' - try 'help'`);
-    this.log(`> ${this.$stdin.value}`);
+      return this.log(`No such action '${actionNameLc}' - try 'help'`);
+    this.log(`> ${actionNameLc} ${args.join(' ')}`);
     this.$stdin.value = "";
     this.log(
       action.fn(args, {
