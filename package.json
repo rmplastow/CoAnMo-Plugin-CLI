@@ -1,8 +1,9 @@
 {
   "name": "coanmo-plugin-cli",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "A simple command line interface for MultArcService CoAnMo’s",
   "main": "dist/CoAnMoPluginCliV1.js",
+  "type": "module",
   "scripts": {
     "start": "parcel index.html --open",
     "build": "rm -rf docs && parcel build -d docs --public-url /coanmo-plugin-cli-v1/ index.html && rm -rf dist && tsc"

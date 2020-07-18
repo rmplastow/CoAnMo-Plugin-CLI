@@ -1,4 +1,4 @@
-# coanmo-plugin-cli-v1
+# CoAnMo Plugin CLI
 
 A simple command line interface for MultArcService CoAnMo’s
 

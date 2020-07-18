@@ -1,6 +1,3 @@
-"use strict";
-exports.__esModule = true;
-exports.CoAnMoPluginCliV1 = void 0;
 var CoAnMoPluginCliV1 = /** @class */ (function () {
     function CoAnMoPluginCliV1(name, version, stdinSelector, stdoutSelector, doc) {
         var _this = this;
@@ -52,5 +49,5 @@ var CoAnMoPluginCliV1 = /** @class */ (function () {
     };
     return CoAnMoPluginCliV1;
 }());
-exports.CoAnMoPluginCliV1 = CoAnMoPluginCliV1;
+export { CoAnMoPluginCliV1 };
 //# sourceMappingURL=CoAnMoPluginCliV1.js.map

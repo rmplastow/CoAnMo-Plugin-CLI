@@ -1,4 +1,3 @@
-"use strict";
 var __spreadArrays = (this && this.__spreadArrays) || function () {
     for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
     for (var r = Array(s), k = 0, i = 0; i < il; i++)
@@ -6,9 +5,8 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
             r[k] = a[j];
     return r;
 };
-exports.__esModule = true;
-var CoAnMoPluginCliV1_1 = require("./CoAnMoPluginCliV1");
-var cli = new CoAnMoPluginCliV1_1.CoAnMoPluginCliV1("ExampleCoAnMo", "1.2.3", ".CoAnMoPluginCliV1.stdin", ".CoAnMoPluginCliV1.stdout", document);
+import { CoAnMoPluginCliV1 } from "./CoAnMoPluginCliV1";
+var cli = new CoAnMoPluginCliV1("ExampleCoAnMo", "1.2.3", ".CoAnMoPluginCliV1.stdin", ".CoAnMoPluginCliV1.stdout", document);
 cli.addActions([
     {
         name: "help",
