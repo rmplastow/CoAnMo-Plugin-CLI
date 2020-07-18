@@ -35,6 +35,10 @@ var CoAnMoPluginCliV1 = /** @class */ (function () {
             return;
         var _a = command.trim().split(/\s+/), actionName = _a[0], args = _a.slice(1);
         var actionNameLc = actionName.toLowerCase(); // because, iPad keyboard
+        if (actionName === "") {
+            this.$stdin.value = "";
+            return this.log(">");
+        }
         var action = this.actions.find(function (actn) { return actn.name === actionNameLc; });
         if (!action)
             return this.log("> No such action '" + actionNameLc + "' - try 'help'");

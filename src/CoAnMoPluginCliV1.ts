@@ -50,6 +50,10 @@ export class CoAnMoPluginCliV1 {
     if (!this.$stdin) return;
     const [actionName, ...args] = command.trim().split(/\s+/);
     const actionNameLc = actionName.toLowerCase(); // because, iPad keyboard
+    if (actionName === "") {
+      this.$stdin.value = "";
+      return this.log(">");
+    }
     const action = this.actions.find(actn => actn.name === actionNameLc);
     if (!action)
       return this.log(`> No such action '${actionNameLc}' - try 'help'`);

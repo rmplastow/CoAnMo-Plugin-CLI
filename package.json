@@ -1,6 +1,6 @@
 {
   "name": "coanmo-plugin-cli",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "A simple command line interface for MultArcService CoAnMo’s",
   "main": "dist/CoAnMoPluginCliV1.js",
   "scripts": {
