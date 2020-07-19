@@ -1,33 +1,33 @@
-var CoAnMoPluginCliV1 = /** @class */ (function () {
-    function CoAnMoPluginCliV1(name, version, stdinSelector, stdoutSelector, doc) {
+var CoAnMoPluginCli = /** @class */ (function () {
+    function CoAnMoPluginCli(name, version, stdinSelector, stdoutSelector, doc) {
         var _this = this;
         this.name = name;
         this.version = version;
         this.actions = [];
         this.$stdin = doc.querySelector(stdinSelector);
         this.$stdout = doc.querySelector(stdoutSelector);
-        this.log("CoAnMoPluginCliV1()");
+        this.log("CoAnMoPluginCli()");
         if (this.$stdin)
             this.$stdin.addEventListener("keydown", function (evt) {
                 if (_this.$stdin && evt.key === "Enter")
                     _this.run(_this.$stdin.value);
             });
     }
-    CoAnMoPluginCliV1.prototype.addActions = function (actions) {
+    CoAnMoPluginCli.prototype.addActions = function (actions) {
         var _this = this;
         actions.forEach(function (action) { return _this.actions.push(action); });
     };
-    CoAnMoPluginCliV1.prototype.focusOnInput = function () {
+    CoAnMoPluginCli.prototype.focusOnInput = function () {
         if (this.$stdin)
             this.$stdin.focus();
     };
-    CoAnMoPluginCliV1.prototype.log = function (message) {
+    CoAnMoPluginCli.prototype.log = function (message) {
         if (!this.$stdout)
             return;
         this.$stdout.innerHTML += "\n" + message;
         this.$stdout.scroll(0, 999999);
     };
-    CoAnMoPluginCliV1.prototype.run = function (command) {
+    CoAnMoPluginCli.prototype.run = function (command) {
         if (!this.$stdin)
             return;
         var _a = command.trim().split(/\s+/), actionName = _a[0], args = _a.slice(1);
@@ -47,7 +47,7 @@ var CoAnMoPluginCliV1 = /** @class */ (function () {
             version: this.version
         }));
     };
-    return CoAnMoPluginCliV1;
+    return CoAnMoPluginCli;
 }());
-export { CoAnMoPluginCliV1 };
-//# sourceMappingURL=CoAnMoPluginCliV1.js.map
+export { CoAnMoPluginCli };
+//# sourceMappingURL=CoAnMoPluginCli.js.map

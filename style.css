@@ -6,24 +6,24 @@ body {
 h2 {
   color: #696;
 }
-.CoAnMoPluginCliV1.stdin {
+.CoAnMoPluginCli.stdin {
   border: 2px solid transparent;
   color: #eee;
   transition: border-color 0.5s;
 }
-.CoAnMoPluginCliV1.stdin:focus {
+.CoAnMoPluginCli.stdin:focus {
   border-color: #fff6;
   outline: none !important;
 }
-.CoAnMoPluginCliV1.stdout {
+.CoAnMoPluginCli.stdout {
   height: 200px;
   white-space: pre-wrap;
   overflow: hidden;
   overflow-y: scroll;
   color: #bfb;
 }
-.CoAnMoPluginCliV1.stdin,
-.CoAnMoPluginCliV1.stdout {
+.CoAnMoPluginCli.stdin,
+.CoAnMoPluginCli.stdout {
   width: 300px;
   padding: 10px;
   border-radius: 6px;

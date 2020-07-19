@@ -8,7 +8,7 @@ export interface ActionI {
     summary: string;
     fn: (args: string[], meta: ActionMetaI) => string;
 }
-export declare class CoAnMoPluginCliV1 {
+export declare class CoAnMoPluginCli {
     private name;
     private version;
     private $stdin;

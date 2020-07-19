@@ -1,10 +1,10 @@
-import { ActionI, ActionMetaI, CoAnMoPluginCliV1 } from "./CoAnMoPluginCliV1";
+import { ActionI, ActionMetaI, CoAnMoPluginCli } from "./CoAnMoPluginCli";
 
-const cli = new CoAnMoPluginCliV1(
-  "CoAnMoPluginCliV1",
-  "1.0.10",
-  ".CoAnMoPluginCliV1.stdin",
-  ".CoAnMoPluginCliV1.stdout",
+const cli = new CoAnMoPluginCli(
+  "CoAnMoPluginCli",
+  "1.0.11",
+  ".CoAnMoPluginCli.stdin",
+  ".CoAnMoPluginCli.stdout",
   document
 );
 

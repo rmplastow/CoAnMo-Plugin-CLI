@@ -3,11 +3,15 @@
 A simple command line interface for MultArcService CoAnMo’s
 
 **Live Demo:**  
-https://rmplastow.github.io/coanmo-plugin-cli-v1  
+https://rmplastow.github.io/coanmo-plugin-cli  
 https://7hnxq.csb.app/  
 **CodeSandbox:**  
-https://codesandbox.io/s/coanmo-plugin-cli-v1-7hnxq  
+https://codesandbox.io/s/coanmo-plugin-cli-7hnxq  
 **Repo:**  
-https://github.com/rmplastow/coanmo-plugin-cli-v1  
+https://github.com/rmplastow/CoAnMo-Plugin-CLI  
 **NPM Module:**  
 https://www.npmjs.com/package/coanmo-plugin-cli
+
+## Contributing
+
+**IMPORTANT:** Use `yarn` when working on this project, not `npm`.

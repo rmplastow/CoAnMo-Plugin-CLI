@@ -10,7 +10,7 @@ export interface ActionI {
   fn: (args: string[], meta: ActionMetaI) => string;
 }
 
-export class CoAnMoPluginCliV1 {
+export class CoAnMoPluginCli {
   private $stdin: HTMLInputElement | null;
   private $stdout: HTMLElement | null;
   private actions: ActionI[] = [];
@@ -24,7 +24,7 @@ export class CoAnMoPluginCliV1 {
   ) {
     this.$stdin = doc.querySelector(stdinSelector);
     this.$stdout = doc.querySelector(stdoutSelector);
-    this.log("CoAnMoPluginCliV1()");
+    this.log("CoAnMoPluginCli()");
 
     if (this.$stdin)
       this.$stdin.addEventListener("keydown", (evt: KeyboardEvent) => {

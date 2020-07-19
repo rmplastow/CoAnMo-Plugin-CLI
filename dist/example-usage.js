@@ -5,8 +5,8 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
             r[k] = a[j];
     return r;
 };
-import { CoAnMoPluginCliV1 } from "./CoAnMoPluginCliV1";
-var cli = new CoAnMoPluginCliV1("CoAnMoPluginCliV1", "1.0.10", ".CoAnMoPluginCliV1.stdin", ".CoAnMoPluginCliV1.stdout", document);
+import { CoAnMoPluginCli } from "./CoAnMoPluginCli";
+var cli = new CoAnMoPluginCli("CoAnMoPluginCli", "1.0.11", ".CoAnMoPluginCli.stdin", ".CoAnMoPluginCli.stdout", document);
 cli.addActions([
     {
         name: "help",
