@@ -8,6 +8,7 @@ export interface ActionMetaI {
 export interface ActionI {
     name: string;
     summary: string;
+    synopsis: string;
     fn: (args: string[], meta: ActionMetaI, doc: Document) => string;
 }
 export declare class CoAnMoPluginCli {

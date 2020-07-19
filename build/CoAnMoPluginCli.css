@@ -102,7 +102,7 @@ body {
   border-radius: 6px;
   box-sizing: border-box;
   background: var(--field-bg-color);
-  font: 12px/20px Monaco, monospace;
+  font: 11px/18px Monaco, monospace;
   outline: none !important;
   border: 2px solid transparent;
   transition: background-color 0.5s, border-color 0.5s, color 0.5s;

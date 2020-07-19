@@ -1,4 +1,5 @@
 import "./CoAnMoPluginCli.css";
+// Re-export some generally useful actions.
 export { actions as CoAnMoPluginCliActions } from './Actions/actions';
 var CoAnMoPluginCli = /** @class */ (function () {
     function CoAnMoPluginCli(name, version, stdinSelector, stdoutSelector, doc) {

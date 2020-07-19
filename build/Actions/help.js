@@ -5,28 +5,28 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
             r[k] = a[j];
     return r;
 };
+export function renderNameAndSummary(action, length) {
+    return (action.name + " ").padEnd(length - 1 - action.summary.length, ".") + " " + action.summary;
+}
 export var help = {
     name: "help",
-    summary: "Shows a help message",
+    summary: "Shows information about actions",
+    synopsis: "To read an action\u2019s synopsis:\n  help [action]\nFor a list of available actions:\n  help",
     fn: function (args, meta) {
-        var actions = meta.actions, name = meta.name, version = meta.version;
-        var longest = actions.reduce(function (longest, action) {
-            if (longest === void 0) { longest = 0; }
-            return Math.max(longest, action.name.length);
-        }, 0);
+        var actions = meta.actions;
         if (args.length === 0)
-            return __spreadArrays([
-                name + " " + version + " Actions:"
-            ], actions.map(function (action) {
-                return "" + action.name.padEnd(longest + 2, " ") + action.summary;
-            })).join("\n");
+            return __spreadArrays(actions
+                .sort(function (a, b) { return a.name > b.name ? 1 : -1; })
+                .map(function (action) { return renderNameAndSummary(action, 40); }), [
+                "Use `help &lt;action>` to show an action\u2019s synopsis" + (actions[1] ? ", eg `help " + actions[1].name + "`" : '')
+            ]).join("\n");
         if (args.length !== 1)
             return "ERROR: 'help' expected 0 or 1 args, but got " + args.length;
         var actionNameLc = args[0].toLowerCase();
         var action = actions.find(function (actn) { return actn.name === actionNameLc; });
         if (!action)
-            return "No such action '" + actionNameLc + "'";
-        return action.name + "  " + action.summary;
+            return "ERROR: No such action '" + actionNameLc + "'";
+        return action.synopsis;
     }
 };
 //# sourceMappingURL=help.js.map

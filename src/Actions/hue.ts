@@ -46,7 +46,15 @@ export function getCurrentHue(doc: Document): Hue {
 
 export const hue: ActionI = {
   name: "hue",
-  summary: "Gets/sets the color scheme",
+  summary: "Gets and sets the color scheme",
+  synopsis: [
+    'Get the CoAnMo’s current color scheme:',
+    '  > hue',
+    `Set the color scheme to ${Object.keys(Hue)[0]}:`,
+    `  > hue ${Object.keys(Hue)[0]}`,
+    `There are ${Object.keys(Hue).length} color schemes:`,
+    ...Object.keys(Hue).map( (hue, index) => `  ${index+1}. ${hue}`)
+  ].join('\n'),
   fn(args: string[], meta: ActionMetaI, doc: Document) {
     const currentHue = getCurrentHue(doc);
     if (args.length === 0) return `${currentHue}`;

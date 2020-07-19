@@ -1,5 +1,6 @@
 import "./CoAnMoPluginCli.css";
 
+// Re-export some generally useful actions.
 export { actions as CoAnMoPluginCliActions } from './Actions/actions'
 
 export interface ActionMetaI {
@@ -11,6 +12,7 @@ export interface ActionMetaI {
 export interface ActionI {
   name: string;
   summary: string;
+  synopsis: string;
   fn: (args: string[], meta: ActionMetaI, doc: Document) => string;
 }
 
