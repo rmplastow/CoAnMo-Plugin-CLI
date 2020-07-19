@@ -10,10 +10,13 @@
       "es6",
       "dom"
     ],
-    "rootDir": ".",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "outDir": "dist",
     "declaration": true
-  }
+  },
+  "files": [
+    "src/CoAnMoPluginCli.ts",
+    "src/Actions/actions.ts"
+  ]
 }
