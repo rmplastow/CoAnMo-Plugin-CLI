@@ -1,16 +1,27 @@
 {
   "name": "coanmo-plugin-cli",
-  "version": "1.1.9",
+  "version": "1.1.10",
   "description": "A simple command line interface for MultArcService CoAnMo’s",
   "main": "build/CoAnMoPluginCli.js",
   "type": "module",
   "scripts": {
     "start": "parcel index.html --open",
-    "build": "rm -rf docs && parcel build -d docs --public-url /CoAnMo-Plugin-CLI/ index.html && rm -rf dist && rm -rf build && tsc && cp src/CoAnMoPluginCli.css build/CoAnMoPluginCli.css"
+    "build": "rm -rf docs && parcel build -d docs --public-url /CoAnMo-Plugin-CLI/ index.html && rm -rf dist && rm -rf build && tsc && cp src/CoAnMoPluginCli.css build/CoAnMoPluginCli.css",
+    "test": "npx jest --runInBand --detectOpenHandles --colors --verbose --reporters=default"
+  },
+  "jest": {
+    "transform": {
+      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "moduleFileExtensions": ["ts", "tsx", "js"]
   },
   "dependencies": {},
   "devDependencies": {
+    "@types/jest": "^26.0.5",
+    "jest": "^26.1.0",
     "parcel-bundler": "^1.6.1",
+    "ts-jest": "^26.1.3",
     "typescript": "^3.9.6"
   },
   "keywords": [],
