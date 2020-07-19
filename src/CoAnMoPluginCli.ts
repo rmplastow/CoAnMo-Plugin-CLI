@@ -50,10 +50,18 @@ export class CoAnMoPluginCli {
 
   log(message: string) {
     if (!this.$stdout) return;
-    if (this.$stdout.innerHTML.trim() === '')
-      this.$stdout.innerHTML = message;
+    const currentHtml = this.$stdout.innerHTML;
+    let newHtml;
+    if (currentHtml.trim() === '')
+      newHtml = message;
     else
-      this.$stdout.innerHTML += `\n${message}`;
+      newHtml = currentHtml + `\n${message}`;
+    newHtml = newHtml.split('\n').map( (line:string): string => {
+      return (
+        '>' === line.substr(0, 1) || 'ERROR: ' === line.substr(0, 7)
+      ) ? `<b>${line}</b>` : line;
+    }).join('\n')
+    this.$stdout.innerHTML = newHtml;
     this.$stdout.scroll(0, 999999);
   }
 

@@ -16,6 +16,7 @@ body {
   --selection-color: hsl(var(--hue-0), 100%, 100%);
   --stdin-color: hsl(var(--hue-0), 100%, 90%);
   --stdout-color: hsl(var(--hue-0), 100%, 80%);
+  --stdout-tag-color: hsl(var(--hue-0), 100%, 90%);
 }
 
 body.hue-grey {
@@ -30,6 +31,7 @@ body.hue-grey {
   --selection-color: hsl(var(--hue-0), 0%, 100%);
   --stdin-color: hsl(var(--hue-0), 0%, 90%);
   --stdout-color: hsl(var(--hue-0), 0%, 80%);
+  --stdout-tag-color: hsl(var(--hue-0), 0%, 90%);
 }
 
 @media (prefers-color-scheme: light) {
@@ -45,6 +47,7 @@ body.hue-grey {
     --selection-color: hsl(var(--hue-0), 100%, 0%);
     --stdin-color: hsl(var(--hue-0), 100%, 15%);
     --stdout-color: hsl(var(--hue-0), 100%, 20%);
+    --stdout-tag-color: hsl(var(--hue-0), 100%, 10%);
   }
 
   body.hue-grey {
@@ -59,6 +62,7 @@ body.hue-grey {
     --selection-color: hsl(var(--hue-0), 0%, 0%);
     --stdin-color: hsl(var(--hue-0), 0%, 15%);
     --stdout-color: hsl(var(--hue-0), 0%, 20%);
+    --stdout-tag-color: hsl(var(--hue-0), 0%, 10%);
   }
 }
 
@@ -127,4 +131,7 @@ body {
   overflow-y: scroll;
   color: var(--stdout-color);
   scrollbar-color: var(--scrollbar-color) var(--scrollbar-bg-color);
+}
+.stdout >b {
+  color: var(--stdout-tag-color);
 }
