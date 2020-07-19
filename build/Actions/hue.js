@@ -45,8 +45,8 @@ export function getCurrentHue(doc) {
 export var hue = {
     name: "hue",
     summary: "Gets/sets the color scheme",
-    fn: function (args, meta) {
-        var currentHue = getCurrentHue(document);
+    fn: function (args, meta, doc) {
+        var currentHue = getCurrentHue(doc);
         if (args.length === 0)
             return "" + currentHue;
         if (args.length !== 1)
@@ -54,8 +54,8 @@ export var hue = {
         var newHue = stringToHue(args[0]);
         if (!newHue)
             return "ERROR: 'hue' got unexpected argument '" + args[0] + "' \u2014 try 'green'";
-        document.body.classList.remove("hue-" + currentHue);
-        document.body.classList.add("hue-" + args[0]);
+        doc.body.classList.remove("hue-" + currentHue);
+        doc.body.classList.add("hue-" + args[0]);
         return "Was " + currentHue + ", now " + args[0];
     }
 };

@@ -9,7 +9,7 @@ export interface ActionMetaI {
 export interface ActionI {
   name: string;
   summary: string;
-  fn: (args: string[], meta: ActionMetaI) => string;
+  fn: (args: string[], meta: ActionMetaI, doc: Document) => string;
 }
 
 export class CoAnMoPluginCli {
@@ -22,7 +22,7 @@ export class CoAnMoPluginCli {
     private version: string,
     stdinSelector: string,
     stdoutSelector: string,
-    doc: HTMLDocument
+    private doc: HTMLDocument
   ) {
     this.$stdin = doc.querySelector(stdinSelector);
     this.$stdout = doc.querySelector(stdoutSelector);
@@ -63,7 +63,7 @@ export class CoAnMoPluginCli {
         actions: this.actions,
         name: this.name,
         version: this.version
-      })
+      }, this.doc)
     );
   }
 }

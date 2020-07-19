@@ -47,16 +47,16 @@ export function getCurrentHue(doc: Document): Hue {
 export const hue: ActionI = {
   name: "hue",
   summary: "Gets/sets the color scheme",
-  fn(args: string[], meta: ActionMetaI) {
-    const currentHue = getCurrentHue(document);
+  fn(args: string[], meta: ActionMetaI, doc: Document) {
+    const currentHue = getCurrentHue(doc);
     if (args.length === 0) return `${currentHue}`;
     if (args.length !== 1)
       return `ERROR: 'hue' expected 0 or 1 args, but got ${args.length}`;
     const newHue = stringToHue(args[0]);
     if (!newHue)
       return `ERROR: 'hue' got unexpected argument '${args[0]}' — try 'green'`;
-    document.body.classList.remove(`hue-${currentHue}`);
-    document.body.classList.add(`hue-${args[0]}`);
+    doc.body.classList.remove(`hue-${currentHue}`);
+    doc.body.classList.add(`hue-${args[0]}`);
     return `Was ${currentHue}, now ${args[0]}`;
   }
 };

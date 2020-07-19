@@ -4,6 +4,7 @@ var CoAnMoPluginCli = /** @class */ (function () {
         var _this = this;
         this.name = name;
         this.version = version;
+        this.doc = doc;
         this.actions = [];
         this.$stdin = doc.querySelector(stdinSelector);
         this.$stdout = doc.querySelector(stdoutSelector);
@@ -44,7 +45,7 @@ var CoAnMoPluginCli = /** @class */ (function () {
             actions: this.actions,
             name: this.name,
             version: this.version
-        }));
+        }, this.doc));
     };
     return CoAnMoPluginCli;
 }());

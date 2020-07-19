@@ -7,11 +7,12 @@ export interface ActionMetaI {
 export interface ActionI {
     name: string;
     summary: string;
-    fn: (args: string[], meta: ActionMetaI) => string;
+    fn: (args: string[], meta: ActionMetaI, doc: Document) => string;
 }
 export declare class CoAnMoPluginCli {
     private name;
     private version;
+    private doc;
     private $stdin;
     private $stdout;
     private actions;
