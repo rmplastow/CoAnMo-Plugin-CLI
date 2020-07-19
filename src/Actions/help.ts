@@ -1,7 +1,10 @@
 import { ActionI, ActionContextI } from "../CoAnMoPluginCli";
 
-export function renderNameAndSummary(action:ActionI, length:number) {
-  return `${`${action.name} `.padEnd(length - 1 - action.summary.length, ".")} ${action.summary}`
+export function renderNameAndSummary(action: ActionI, length: number) {
+  return `${`${action.name} `.padEnd(
+    length - 1 - action.summary.length,
+    "."
+  )} ${action.summary}`;
 }
 
 export const help: ActionI = {
@@ -16,10 +19,11 @@ To show an action’s synopsis:
     if (args.length === 0)
       return [
         ...actions
-          .sort((a: ActionI, b: ActionI) => a.name > b.name ? 1 : -1)
+          .sort((a: ActionI, b: ActionI) => (a.name > b.name ? 1 : -1))
           .map((action: ActionI) => renderNameAndSummary(action, 40)),
         `Use \`help &lt;action>\` to show an action’s synopsis, eg \`help ${
-          actions[actions.length-1].name}\``
+          actions[actions.length - 1].name
+        }\``
       ].join("\n");
     if (args.length !== 1)
       return `ERROR: 'help' expected 0 or 1 args, but got ${args.length}`;

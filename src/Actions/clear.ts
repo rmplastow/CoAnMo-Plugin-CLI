@@ -9,7 +9,7 @@ Does not delete history, or remotely stored logs.`,
     const { $stdout } = context;
     if (args.length !== 0)
       return `ERROR: 'clear' expected 0 args, but got ${args.length}`;
-    if ($stdout) $stdout.innerHTML = '';
-    return '';
+    if ($stdout) $stdout.innerHTML = "";
+    return "";
   }
 };

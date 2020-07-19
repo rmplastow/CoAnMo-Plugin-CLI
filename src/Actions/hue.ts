@@ -48,13 +48,13 @@ export const hue: ActionI = {
   name: "hue",
   summary: "Gets and sets the color scheme",
   synopsis: [
-    'Get the CoAnMo’s current color scheme:',
-    '  > hue',
+    "Get the CoAnMo’s current color scheme:",
+    "  > hue",
     `Set the color scheme to ${Object.keys(Hue)[0]}:`,
     `  > hue ${Object.keys(Hue)[0]}`,
     `There are ${Object.keys(Hue).length} color schemes:`,
-    ...Object.keys(Hue).map( (hue, index) => `  ${index+1}. ${hue}`)
-  ].join('\n'),
+    ...Object.keys(Hue).map((hue, index) => `  ${index + 1}. ${hue}`)
+  ].join("\n"),
   fn(args: string[], context: ActionContextI) {
     const { doc } = context;
     const currentHue = getCurrentHue(doc);

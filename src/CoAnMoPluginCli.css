@@ -132,6 +132,6 @@ body {
   color: var(--stdout-color);
   scrollbar-color: var(--scrollbar-color) var(--scrollbar-bg-color);
 }
-.stdout >b {
+.stdout > b {
   color: var(--stdout-tag-color);
 }
