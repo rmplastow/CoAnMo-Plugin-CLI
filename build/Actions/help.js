@@ -11,14 +11,14 @@ export function renderNameAndSummary(action, length) {
 export var help = {
     name: "help",
     summary: "Shows information about actions",
-    synopsis: "To read an action\u2019s synopsis:\n  help [action]\nFor a list of available actions:\n  help",
-    fn: function (args, meta) {
-        var actions = meta.actions;
+    synopsis: "For a list of available actions:\n  > help\nTo show an action\u2019s synopsis:\n  > help &lt;action>",
+    fn: function (args, context) {
+        var actions = context.actions;
         if (args.length === 0)
             return __spreadArrays(actions
                 .sort(function (a, b) { return a.name > b.name ? 1 : -1; })
                 .map(function (action) { return renderNameAndSummary(action, 40); }), [
-                "Use `help &lt;action>` to show an action\u2019s synopsis" + (actions[1] ? ", eg `help " + actions[1].name + "`" : '')
+                "Use `help &lt;action>` to show an action\u2019s synopsis, eg `help " + actions[actions.length - 1].name + "`"
             ]).join("\n");
         if (args.length !== 1)
             return "ERROR: 'help' expected 0 or 1 args, but got " + args.length;

@@ -1,7 +1,9 @@
 import "./CoAnMoPluginCli.css";
 export { actions as CoAnMoPluginCliActions } from './Actions/actions';
-export interface ActionMetaI {
+export interface ActionContextI {
+    $stdout: HTMLElement | null;
     actions: ActionI[];
+    doc: Document;
     name: string;
     version: string;
 }
@@ -9,7 +11,7 @@ export interface ActionI {
     name: string;
     summary: string;
     synopsis: string;
-    fn: (args: string[], meta: ActionMetaI, doc: Document) => string;
+    fn: (args: string[], context: ActionContextI) => string;
 }
 export declare class CoAnMoPluginCli {
     private name;

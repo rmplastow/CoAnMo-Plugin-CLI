@@ -3,8 +3,10 @@ import "./CoAnMoPluginCli.css";
 // Re-export some generally useful actions.
 export { actions as CoAnMoPluginCliActions } from './Actions/actions'
 
-export interface ActionMetaI {
+export interface ActionContextI {
+  $stdout: HTMLElement | null;
   actions: ActionI[];
+  doc: Document;
   name: string;
   version: string;
 }
@@ -13,7 +15,7 @@ export interface ActionI {
   name: string;
   summary: string;
   synopsis: string;
-  fn: (args: string[], meta: ActionMetaI, doc: Document) => string;
+  fn: (args: string[], context: ActionContextI) => string;
 }
 
 export class CoAnMoPluginCli {
@@ -48,7 +50,10 @@ export class CoAnMoPluginCli {
 
   log(message: string) {
     if (!this.$stdout) return;
-    this.$stdout.innerHTML += `\n${message}`;
+    if (this.$stdout.innerHTML.trim() === '')
+      this.$stdout.innerHTML = message;
+    else
+      this.$stdout.innerHTML += `\n${message}`;
     this.$stdout.scroll(0, 999999);
   }
 
@@ -64,10 +69,12 @@ export class CoAnMoPluginCli {
     this.log(`> ${actionNameLc} ${args.join(' ')}`);
     this.log(
       action.fn(args, {
+        $stdout: this.$stdout,
         actions: this.actions,
+        doc: this.doc,
         name: this.name,
         version: this.version
-      }, this.doc)
+      })
     );
   }
 }

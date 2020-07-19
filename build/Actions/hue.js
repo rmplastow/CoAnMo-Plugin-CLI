@@ -59,7 +59,8 @@ export var hue = {
         "  > hue " + Object.keys(Hue)[0],
         "There are " + Object.keys(Hue).length + " color schemes:"
     ], Object.keys(Hue).map(function (hue, index) { return "  " + (index + 1) + ". " + hue; })).join('\n'),
-    fn: function (args, meta, doc) {
+    fn: function (args, context) {
+        var doc = context.doc;
         var currentHue = getCurrentHue(doc);
         if (args.length === 0)
             return "" + currentHue;

@@ -98,7 +98,7 @@ body {
 .stdin,
 .stdout {
   width: 300px;
-  padding: 10px;
+  padding: 8px;
   border-radius: 6px;
   box-sizing: border-box;
   background: var(--field-bg-color);

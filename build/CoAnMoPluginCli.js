@@ -28,7 +28,10 @@ var CoAnMoPluginCli = /** @class */ (function () {
     CoAnMoPluginCli.prototype.log = function (message) {
         if (!this.$stdout)
             return;
-        this.$stdout.innerHTML += "\n" + message;
+        if (this.$stdout.innerHTML.trim() === '')
+            this.$stdout.innerHTML = message;
+        else
+            this.$stdout.innerHTML += "\n" + message;
         this.$stdout.scroll(0, 999999);
     };
     CoAnMoPluginCli.prototype.run = function (command) {
@@ -44,10 +47,12 @@ var CoAnMoPluginCli = /** @class */ (function () {
             return this.log("ERROR: No such action '" + actionNameLc + "' - try 'help'");
         this.log("> " + actionNameLc + " " + args.join(' '));
         this.log(action.fn(args, {
+            $stdout: this.$stdout,
             actions: this.actions,
+            doc: this.doc,
             name: this.name,
             version: this.version
-        }, this.doc));
+        }));
     };
     return CoAnMoPluginCli;
 }());

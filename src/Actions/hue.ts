@@ -1,4 +1,4 @@
-import { ActionI, ActionMetaI } from "../CoAnMoPluginCli";
+import { ActionI, ActionContextI } from "../CoAnMoPluginCli";
 
 export enum Hue {
   red = "red",
@@ -55,7 +55,8 @@ export const hue: ActionI = {
     `There are ${Object.keys(Hue).length} color schemes:`,
     ...Object.keys(Hue).map( (hue, index) => `  ${index+1}. ${hue}`)
   ].join('\n'),
-  fn(args: string[], meta: ActionMetaI, doc: Document) {
+  fn(args: string[], context: ActionContextI) {
+    const { doc } = context;
     const currentHue = getCurrentHue(doc);
     if (args.length === 0) return `${currentHue}`;
     if (args.length !== 1)
