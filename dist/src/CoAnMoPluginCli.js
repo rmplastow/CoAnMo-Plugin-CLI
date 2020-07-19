@@ -7,7 +7,7 @@ var CoAnMoPluginCli = /** @class */ (function () {
         this.actions = [];
         this.$stdin = doc.querySelector(stdinSelector);
         this.$stdout = doc.querySelector(stdoutSelector);
-        this.log("CoAnMoPluginCli()");
+        this.log(name + " " + version);
         if (this.$stdin)
             this.$stdin.addEventListener("keydown", function (evt) {
                 if (_this.$stdin && evt.key === "Enter")
@@ -31,17 +31,15 @@ var CoAnMoPluginCli = /** @class */ (function () {
     CoAnMoPluginCli.prototype.run = function (command) {
         if (!this.$stdin)
             return;
+        this.$stdin.value = "";
         var _a = command.trim().split(/\s+/), actionName = _a[0], args = _a.slice(1);
         var actionNameLc = actionName.toLowerCase(); // because, iPad keyboard
-        if (actionName === "") {
-            this.$stdin.value = "";
+        if (actionName === "")
             return this.log(">");
-        }
         var action = this.actions.find(function (actn) { return actn.name === actionNameLc; });
         if (!action)
-            return this.log("No such action '" + actionNameLc + "' - try 'help'");
+            return this.log("ERROR: No such action '" + actionNameLc + "' - try 'help'");
         this.log("> " + actionNameLc + " " + args.join(' '));
-        this.$stdin.value = "";
         this.log(action.fn(args, {
             actions: this.actions,
             name: this.name,

@@ -26,7 +26,7 @@ export class CoAnMoPluginCli {
   ) {
     this.$stdin = doc.querySelector(stdinSelector);
     this.$stdout = doc.querySelector(stdoutSelector);
-    this.log("CoAnMoPluginCli()");
+    this.log(`${name} ${version}`);
 
     if (this.$stdin)
       this.$stdin.addEventListener("keydown", (evt: KeyboardEvent) => {
@@ -50,17 +50,14 @@ export class CoAnMoPluginCli {
 
   run(command: string) {
     if (!this.$stdin) return;
+    this.$stdin.value = "";
     const [actionName, ...args] = command.trim().split(/\s+/);
     const actionNameLc = actionName.toLowerCase(); // because, iPad keyboard
-    if (actionName === "") {
-      this.$stdin.value = "";
-      return this.log(">");
-    }
+    if (actionName === "") return this.log(">");
     const action = this.actions.find(actn => actn.name === actionNameLc);
     if (!action)
-      return this.log(`No such action '${actionNameLc}' - try 'help'`);
+      return this.log(`ERROR: No such action '${actionNameLc}' - try 'help'`);
     this.log(`> ${actionNameLc} ${args.join(' ')}`);
-    this.$stdin.value = "";
     this.log(
       action.fn(args, {
         actions: this.actions,
