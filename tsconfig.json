@@ -17,6 +17,7 @@
   },
   "files": [
     "src/CoAnMoPluginCli.ts",
-    "src/Actions/actions.ts"
+    "src/Actions/actions.ts",
+    "declarations.d.ts"
   ]
 }

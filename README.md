@@ -14,4 +14,4 @@ https://www.npmjs.com/package/coanmo-plugin-cli
 
 ## Contributing
 
-**IMPORTANT:** Use `yarn` when working on this project, not `npm`.
+Use `npm` when working on this project, not `yarn`.
