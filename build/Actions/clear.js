@@ -7,8 +7,8 @@ export var clear = {
         if (args.length !== 0)
             return "ERROR: 'clear' expected 0 args, but got " + args.length;
         if ($stdout)
-            $stdout.innerHTML = '';
-        return '';
+            $stdout.innerHTML = "";
+        return "";
     }
 };
 //# sourceMappingURL=clear.js.map

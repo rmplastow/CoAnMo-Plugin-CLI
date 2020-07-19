@@ -53,12 +53,12 @@ export var hue = {
     name: "hue",
     summary: "Gets and sets the color scheme",
     synopsis: __spreadArrays([
-        'Get the CoAnMo’s current color scheme:',
-        '  > hue',
+        "Get the CoAnMo’s current color scheme:",
+        "  > hue",
         "Set the color scheme to " + Object.keys(Hue)[0] + ":",
         "  > hue " + Object.keys(Hue)[0],
         "There are " + Object.keys(Hue).length + " color schemes:"
-    ], Object.keys(Hue).map(function (hue, index) { return "  " + (index + 1) + ". " + hue; })).join('\n'),
+    ], Object.keys(Hue).map(function (hue, index) { return "  " + (index + 1) + ". " + hue; })).join("\n"),
     fn: function (args, context) {
         var doc = context.doc;
         var currentHue = getCurrentHue(doc);

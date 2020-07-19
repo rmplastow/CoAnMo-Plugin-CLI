@@ -16,7 +16,7 @@ export var help = {
         var actions = context.actions;
         if (args.length === 0)
             return __spreadArrays(actions
-                .sort(function (a, b) { return a.name > b.name ? 1 : -1; })
+                .sort(function (a, b) { return (a.name > b.name ? 1 : -1); })
                 .map(function (action) { return renderNameAndSummary(action, 40); }), [
                 "Use `help &lt;action>` to show an action\u2019s synopsis, eg `help " + actions[actions.length - 1].name + "`"
             ]).join("\n");
