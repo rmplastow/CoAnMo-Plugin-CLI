@@ -1,5 +1,7 @@
 import "./CoAnMoPluginCli.css";
 
+export { actions as CoAnMoPluginCliActions } from './Actions/actions'
+
 export interface ActionMetaI {
   actions: ActionI[];
   name: string;
