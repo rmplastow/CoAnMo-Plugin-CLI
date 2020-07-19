@@ -1,3 +1,5 @@
+import "./CoAnMoPluginCli.css";
+
 export interface ActionMetaI {
   actions: ActionI[];
   name: string;

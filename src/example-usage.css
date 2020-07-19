@@ -1,0 +1,9 @@
+body {
+  margin: 0;
+  padding: 0 10px;
+  font: 10px/1.5 Arial, sans-serif;
+}
+
+h1, h2 {
+  margin: 5px 0;
+}

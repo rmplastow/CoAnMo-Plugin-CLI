@@ -1,3 +1,4 @@
+import "./CoAnMoPluginCli.css";
 var CoAnMoPluginCli = /** @class */ (function () {
     function CoAnMoPluginCli(name, version, stdinSelector, stdoutSelector, doc) {
         var _this = this;

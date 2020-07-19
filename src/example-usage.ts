@@ -1,10 +1,12 @@
+import "./example-usage.css";
+
 import { ActionI, ActionMetaI, CoAnMoPluginCli } from "./CoAnMoPluginCli";
 
 const cli = new CoAnMoPluginCli(
   "CoAnMoPluginCli",
-  "1.0.11",
-  ".CoAnMoPluginCli.stdin",
-  ".CoAnMoPluginCli.stdout",
+  "1.1.0",
+  ".stdin",
+  ".stdout",
   document
 );
 
