@@ -16,8 +16,10 @@ export var Hue;
     Hue["magenta"] = "magenta";
     Hue["grey"] = "grey";
 })(Hue || (Hue = {}));
-export function stringToHue(string) {
-    switch (string) {
+// See ‘/* The default hue-shift is blue */’ in ‘src/CoAnMoPluginCli.css’.
+export var defaultHue = Hue.blue;
+export function stringToHue(hueString) {
+    switch (hueString) {
         case "red":
             return Hue.red;
         case "orange":
@@ -43,22 +45,53 @@ export function getCurrentHue(doc) {
         .split(/\s+/)
         .find(function (className) { return className.slice(0, 4) === "hue-"; });
     if (!hueClass)
-        return Hue.blue; // `undefined` defaults to blue, if not found
+        return defaultHue; // `undefined` defaults to blue, if not found
     var hue = stringToHue(hueClass.slice(4));
     if (!hue)
-        return Hue.blue; // 'hue-nope' defaults to blue
+        return defaultHue; // 'hue-nope' defaults to blue
     return hue;
+}
+export function stringToHueMeaning(hueString) {
+    switch (hueString) {
+        case "red":
+            return "Encountered a critical error";
+        case "orange":
+            return "Encountered an error";
+        case "yellow":
+            return "Encountered a warning";
+        case "green":
+            return "Connected to a service";
+        case "cyan":
+            return "Important information";
+        case "blue":
+            return "Not connected to a service";
+        case "magenta":
+            return "Service not responding";
+        case "grey":
+            return "Initialising or quitted";
+        default:
+            return undefined;
+    }
+}
+export function renderHueAndMeaning(hueString, index) {
+    var meaning = stringToHueMeaning(hueString) || "";
+    return ("  " + (index + 1) + ". " + hueString + " ").padEnd(40 - 1 - meaning.length, ".") + " " + meaning;
+}
+export function getHueSynopsis() {
+    var topHue = Object.keys(Hue)[0];
+    var hueTally = Object.keys(Hue).length;
+    return __spreadArrays([
+        "Get the CoAnMo’s current color scheme:",
+        "  > hue",
+        "Set the color scheme to " + topHue + ":",
+        "  > hue " + topHue,
+        "The " + hueTally + " color schemes and their meanings:"
+    ], Object.keys(Hue).map(renderHueAndMeaning)).join("\n");
 }
 export var hue = {
     name: "hue",
     summary: "Gets and sets the color scheme",
-    synopsis: __spreadArrays([
-        "Get the CoAnMo’s current color scheme:",
-        "  > hue",
-        "Set the color scheme to " + Object.keys(Hue)[0] + ":",
-        "  > hue " + Object.keys(Hue)[0],
-        "There are " + Object.keys(Hue).length + " color schemes:"
-    ], Object.keys(Hue).map(function (hue, index) { return "  " + (index + 1) + ". " + hue; })).join("\n"),
+    synopsis: getHueSynopsis(),
     fn: function (args, context) {
         var doc = context.doc;
         var currentHue = getCurrentHue(doc);

@@ -9,6 +9,10 @@ export declare enum Hue {
     magenta = "magenta",
     grey = "grey"
 }
-export declare function stringToHue(string: string): Hue | void;
+export declare const defaultHue = Hue.blue;
+export declare function stringToHue(hueString: string): Hue | void;
 export declare function getCurrentHue(doc: Document): Hue;
+export declare function stringToHueMeaning(hueString: string): string | void;
+export declare function renderHueAndMeaning(hueString: string, index: number): string;
+export declare function getHueSynopsis(): string;
 export declare const hue: ActionI;
