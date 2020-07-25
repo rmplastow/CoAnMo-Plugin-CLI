@@ -10,7 +10,7 @@ const mockContext: ActionContextI = {
   version: "1.2.3"
 };
 
-describe("version", () => {
+describe("version.fn()", () => {
   it("returns the expected string when passed no arguments", () => {
     expect(fn([], mockContext)).toBe("Mock-Version 1.2.3");
   });
