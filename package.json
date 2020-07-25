@@ -1,6 +1,6 @@
 {
   "name": "coanmo-plugin-cli",
-  "version": "1.1.11",
+  "version": "1.1.12",
   "description": "A simple command line interface for MultArcService CoAnMo’s",
   "main": "build/CoAnMoPluginCli.js",
   "type": "module",
@@ -11,10 +11,14 @@
   },
   "jest": {
     "transform": {
-      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+      ".(ts|tsx)": "ts-jest"
     },
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
-    "moduleFileExtensions": ["ts", "tsx", "js"]
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ]
   },
   "dependencies": {},
   "devDependencies": {
