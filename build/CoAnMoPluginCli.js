@@ -1,6 +1,6 @@
 import "./CoAnMoPluginCli.css";
 // Re-export some generally useful actions.
-export { actions as CoAnMoPluginCliActions } from './Actions/actions';
+export { actions as CoAnMoPluginCliActions } from "./Actions/actions";
 var CoAnMoPluginCli = /** @class */ (function () {
     function CoAnMoPluginCli(name, version, stdinSelector, stdoutSelector, doc) {
         var _this = this;
@@ -27,18 +27,24 @@ var CoAnMoPluginCli = /** @class */ (function () {
     };
     CoAnMoPluginCli.prototype.log = function (message) {
         if (!this.$stdout)
-            return;
+            return message;
         var currentHtml = this.$stdout.innerHTML;
         var newHtml;
-        if (currentHtml.trim() === '')
+        if (currentHtml.trim() === "")
             newHtml = message;
         else
             newHtml = currentHtml + ("\n" + message);
-        newHtml = newHtml.split('\n').map(function (line) {
-            return ('>' === line.substr(0, 1) || 'ERROR: ' === line.substr(0, 7)) ? "<b>" + line + "</b>" : line;
-        }).join('\n');
+        newHtml = newHtml
+            .split("\n")
+            .map(function (line) {
+            return "> " === line.substr(0, 2) || "ERROR: " === line.substr(0, 7)
+                ? "<b>" + line + "</b>"
+                : line;
+        })
+            .join("\n");
         this.$stdout.innerHTML = newHtml;
         this.$stdout.scroll(0, 999999);
+        return message;
     };
     CoAnMoPluginCli.prototype.run = function (command) {
         if (!this.$stdin)
@@ -47,12 +53,12 @@ var CoAnMoPluginCli = /** @class */ (function () {
         var _a = command.trim().split(/\s+/), actionName = _a[0], args = _a.slice(1);
         var actionNameLc = actionName.toLowerCase(); // because, iPad keyboard
         if (actionName === "")
-            return this.log(">");
+            return this.log("> ");
         var action = this.actions.find(function (actn) { return actn.name === actionNameLc; });
         if (!action)
             return this.log("ERROR: No such action '" + actionNameLc + "' - try 'help'");
-        this.log("> " + actionNameLc + " " + args.join(' '));
-        this.log(action.fn(args, {
+        this.log("> " + actionNameLc + " " + args.join(" "));
+        return this.log(action.fn(args, {
             $stdout: this.$stdout,
             actions: this.actions,
             doc: this.doc,

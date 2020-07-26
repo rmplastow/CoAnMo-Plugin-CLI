@@ -1,5 +1,5 @@
 import "./CoAnMoPluginCli.css";
-export { actions as CoAnMoPluginCliActions } from './Actions/actions';
+export { actions as CoAnMoPluginCliActions } from "./Actions/actions";
 export interface ActionContextI {
     $stdout: HTMLElement | null;
     actions: ActionI[];
@@ -23,6 +23,6 @@ export declare class CoAnMoPluginCli {
     constructor(name: string, version: string, stdinSelector: string, stdoutSelector: string, doc: HTMLDocument);
     addActions(actions: ActionI[]): void;
     focusOnInput(): void;
-    log(message: string): void;
-    run(command: string): void;
+    log(message: string): string;
+    run(command: string): string | void;
 }

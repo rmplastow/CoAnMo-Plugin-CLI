@@ -1,7 +1,7 @@
 import "./CoAnMoPluginCli.css";
 
 // Re-export some generally useful actions.
-export { actions as CoAnMoPluginCliActions } from './Actions/actions'
+export { actions as CoAnMoPluginCliActions } from "./Actions/actions";
 
 export interface ActionContextI {
   $stdout: HTMLElement | null;
@@ -48,34 +48,38 @@ export class CoAnMoPluginCli {
     if (this.$stdin) this.$stdin.focus();
   }
 
-  log(message: string) {
-    if (!this.$stdout) return;
+  log(message: string): string {
+    if (!this.$stdout) return message;
     const currentHtml = this.$stdout.innerHTML;
     let newHtml;
-    if (currentHtml.trim() === '')
-      newHtml = message;
-    else
-      newHtml = currentHtml + `\n${message}`;
-    newHtml = newHtml.split('\n').map( (line:string): string => {
-      return (
-        '>' === line.substr(0, 1) || 'ERROR: ' === line.substr(0, 7)
-      ) ? `<b>${line}</b>` : line;
-    }).join('\n')
+    if (currentHtml.trim() === "") newHtml = message;
+    else newHtml = currentHtml + `\n${message}`;
+    newHtml = newHtml
+      .split("\n")
+      .map(
+        (line: string): string => {
+          return "> " === line.substr(0, 2) || "ERROR: " === line.substr(0, 7)
+            ? `<b>${line}</b>`
+            : line;
+        }
+      )
+      .join("\n");
     this.$stdout.innerHTML = newHtml;
     this.$stdout.scroll(0, 999999);
+    return message;
   }
 
-  run(command: string) {
+  run(command: string): string | void {
     if (!this.$stdin) return;
     this.$stdin.value = "";
     const [actionName, ...args] = command.trim().split(/\s+/);
     const actionNameLc = actionName.toLowerCase(); // because, iPad keyboard
-    if (actionName === "") return this.log(">");
+    if (actionName === "") return this.log("> ");
     const action = this.actions.find(actn => actn.name === actionNameLc);
     if (!action)
       return this.log(`ERROR: No such action '${actionNameLc}' - try 'help'`);
-    this.log(`> ${actionNameLc} ${args.join(' ')}`);
-    this.log(
+    this.log(`> ${actionNameLc} ${args.join(" ")}`);
+    return this.log(
       action.fn(args, {
         $stdout: this.$stdout,
         actions: this.actions,
