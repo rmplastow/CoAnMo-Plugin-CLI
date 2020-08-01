@@ -2,15 +2,17 @@ import "./CoAnMoPluginCli.css";
 // Re-export some generally useful actions.
 export { actions as CoAnMoPluginCliActions } from "./Actions/actions";
 var CoAnMoPluginCli = /** @class */ (function () {
-    function CoAnMoPluginCli(name, version, stdinSelector, stdoutSelector, doc) {
+    function CoAnMoPluginCli(name, version, stdinSelector, stdoutSelector, doc, meta) {
         var _this = this;
         this.name = name;
         this.version = version;
         this.doc = doc;
+        this.meta = meta;
         this.actions = [];
         this.$stdin = doc.querySelector(stdinSelector);
         this.$stdout = doc.querySelector(stdoutSelector);
         this.log(name + " " + version);
+        this.log("" + meta);
         if (this.$stdin)
             this.$stdin.addEventListener("keydown", function (evt) {
                 if (_this.$stdin && evt.key === "Enter")
@@ -62,6 +64,7 @@ var CoAnMoPluginCli = /** @class */ (function () {
             $stdout: this.$stdout,
             actions: this.actions,
             doc: this.doc,
+            meta: this.meta,
             name: this.name,
             version: this.version
         }));

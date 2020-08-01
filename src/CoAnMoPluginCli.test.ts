@@ -1,4 +1,4 @@
-import { ActionI, ActionContextI, CoAnMoPluginCli } from "./CoAnMoPluginCli";
+import { ActionContextI, CoAnMoPluginCli } from "./CoAnMoPluginCli";
 
 // Mocks and spies.
 
@@ -61,11 +61,13 @@ describe("constructor()", () => {
     "test-version", // version
     ".no-such-element", // stdinSelector
     ".no-such-element", // stdoutSelector
-    mockDoc // doc
+    mockDoc, // doc
+    "test-meta" // meta
   );
 
   test("a CoAnMoPluginCli instance has expected private properties", () => {
-    expect(noSuchEls["name"]).toBe("test-name"); // stackoverflow.com/a/35991491
+    expect(noSuchEls["meta"]).toBe("test-meta"); // stackoverflow.com/a/35991491
+    expect(noSuchEls["name"]).toBe("test-name");
     expect(noSuchEls["version"]).toBe("test-version");
     expect(noSuchEls["doc"]).toBe(mockDoc);
     expect(noSuchEls["actions"]).toEqual([]);
@@ -79,7 +81,8 @@ describe("constructor()", () => {
       "test-version",
       ".mock-input-el",
       ".no-such-element",
-      mockDoc
+      mockDoc,
+      "test-meta"
     );
     expect(hasIn["$stdin"]).toBe(mockInputEl);
     expect(eventNameSpy).toBe("keydown");
@@ -92,11 +95,12 @@ describe("constructor()", () => {
       "test-version",
       ".no-such-element",
       ".mock-output-el",
-      mockDoc
+      mockDoc,
+      "test-meta"
     );
     expect(hasOut["$stdout"]).toBe(mockOutputEl);
     expect(hasOut["$stdout"] && hasOut["$stdout"].innerHTML).toBe(
-      "test-name test-version"
+      "test-name test-version\ntest-meta"
     );
     expect(scrollXSpy).toBe(0);
     expect(scrollYSpy).toBe(999999);
@@ -116,7 +120,7 @@ describe("constructor()", () => {
 
 describe("addActions()", () => {
   test("adding actions increases the length of the `actions` array", () => {
-    const minimal = new CoAnMoPluginCli("", "", "", "", mockDoc);
+    const minimal = new CoAnMoPluginCli("", "", "", "", mockDoc, "");
     expect(minimal["actions"].length).toBe(0);
     minimal.addActions([]);
     expect(minimal["actions"].length).toBe(0);
@@ -133,7 +137,8 @@ describe("addActions()", () => {
       "test-version",
       ".mock-input-el",
       ".mock-output-el",
-      mockDoc
+      mockDoc,
+      "test-meta"
     );
     expect(hasInOut.run("mockaction")).toBe(
       "ERROR: No such action 'mockaction' - try 'help'"
@@ -145,7 +150,14 @@ describe("addActions()", () => {
 
 describe("focusOnInput()", () => {
   test("calling focusOnInput() calls the input element’s focus() method", () => {
-    const hasIn = new CoAnMoPluginCli("", "", ".mock-input-el", "", mockDoc);
+    const hasIn = new CoAnMoPluginCli(
+      "",
+      "",
+      ".mock-input-el",
+      "",
+      mockDoc,
+      ""
+    );
     hasIn.focusOnInput();
     expect(focusSpy).toBe(true);
   });
@@ -157,7 +169,14 @@ describe("focusOnInput()", () => {
 
 describe("log()", () => {
   it("returns the message with no output element", () => {
-    const hasIn = new CoAnMoPluginCli("", "", ".mock-input-el", "", mockDoc);
+    const hasIn = new CoAnMoPluginCli(
+      "",
+      "",
+      ".mock-input-el",
+      "",
+      mockDoc,
+      ""
+    );
     expect(hasIn.log("will not be logged")).toBe("will not be logged");
     expect(mockOutputEl.innerHTML).toBe("");
   });
@@ -168,18 +187,26 @@ describe("log()", () => {
       "v",
       "",
       ".mock-output-el",
-      mockDoc
+      mockDoc,
+      "m"
     );
-    expect(mockOutputEl.innerHTML).toBe("n v");
+    expect(mockOutputEl.innerHTML).toBe("n v\nm");
     expect(hasOut.log("first line")).toBe("first line");
-    expect(mockOutputEl.innerHTML).toBe("n v\nfirst line");
+    expect(mockOutputEl.innerHTML).toBe("n v\nm\nfirst line");
     expect(hasOut.log("second line")).toBe("second line");
-    expect(mockOutputEl.innerHTML).toBe("n v\nfirst line\nsecond line");
+    expect(mockOutputEl.innerHTML).toBe("n v\nm\nfirst line\nsecond line");
   });
 
   test("if the innerHTML only contained whitespace, it is deleted", () => {
-    const hasOut = new CoAnMoPluginCli("", "", "", ".mock-output-el", mockDoc);
-    expect(mockOutputEl.innerHTML).toBe(" ");
+    const hasOut = new CoAnMoPluginCli(
+      "",
+      "",
+      "",
+      ".mock-output-el",
+      mockDoc,
+      ""
+    );
+    expect(mockOutputEl.innerHTML).toBe("");
     expect(hasOut.log("first line")).toBe("first line");
     expect(mockOutputEl.innerHTML).toBe("first line");
     mockOutputEl.innerHTML = "   \t\t  \n\n\t \n   ";
@@ -189,7 +216,14 @@ describe("log()", () => {
   });
 
   test("lines which start '> ' or 'ERROR: ' are made bold", () => {
-    const hasOut = new CoAnMoPluginCli("", "", "", ".mock-output-el", mockDoc);
+    const hasOut = new CoAnMoPluginCli(
+      "",
+      "",
+      "",
+      ".mock-output-el",
+      mockDoc,
+      ""
+    );
     expect(hasOut.log("> some command")).toBe("> some command");
     expect(mockOutputEl.innerHTML).toBe("<b>> some command</b>");
     mockOutputEl.innerHTML = "foo 1.2.3\n> foobar\n\nERROR:   extra spaces";
@@ -204,7 +238,14 @@ describe("log()", () => {
   });
 
   test("lines which nearly start '>' or 'ERROR: ' are not made bold", () => {
-    const hasOut = new CoAnMoPluginCli("", "", "", ".mock-output-el", mockDoc);
+    const hasOut = new CoAnMoPluginCli(
+      "",
+      "",
+      "",
+      ".mock-output-el",
+      mockDoc,
+      ""
+    );
     mockOutputEl.innerHTML =
       "foo 1.2.3\n" +
       "<b>> already bold</b>\n" +
@@ -244,7 +285,8 @@ describe("log()", () => {
       "v",
       "",
       ".mock-output-el",
-      mockDoc
+      mockDoc,
+      "m"
     );
     expect(scrollXSpy).toBe(0); // the constructor logs "n v"
     expect(scrollYSpy).toBe(999999);
@@ -255,7 +297,7 @@ describe("log()", () => {
     expect(hasOut.log("ok\n> 123")).toBe("ok\n> 123");
     expect(scrollXSpy).toBe(0); // log() has called the output element’s scroll()
     expect(scrollYSpy).toBe(999999);
-    expect(mockOutputEl.innerHTML).toBe("n v\n" + "ok\n" + "<b>> 123</b>");
+    expect(mockOutputEl.innerHTML).toBe("n v\nm\nok\n<b>> 123</b>");
   });
 
   beforeEach(() => {
@@ -267,7 +309,14 @@ describe("log()", () => {
 
 describe("run()", () => {
   it("returns the command with no input element", () => {
-    const hasOut = new CoAnMoPluginCli("", "", "", ".mock-output-el", mockDoc);
+    const hasOut = new CoAnMoPluginCli(
+      "",
+      "",
+      "",
+      ".mock-output-el",
+      mockDoc,
+      ""
+    );
     expect(hasOut.run("will never be run")).toBe(undefined);
   });
 
@@ -277,18 +326,26 @@ describe("run()", () => {
       "v",
       ".mock-input-el",
       ".mock-output-el",
-      mockDoc
+      mockDoc,
+      "m"
     );
-    expect(mockOutputEl.innerHTML).toBe("n v");
+    expect(mockOutputEl.innerHTML).toBe("n v\nm");
     expect(hasInOut.run("")).toBe("> ");
     expect(hasInOut.run(" ")).toBe("> ");
     expect(hasInOut.run("\n\n\t\n")).toBe("> ");
     expect(hasInOut.run("   \n \n\t   \n    ")).toBe("> ");
-    expect(mockOutputEl.innerHTML).toBe(`n v${"\n<b>> </b>".repeat(4)}`);
+    expect(mockOutputEl.innerHTML).toBe(`n v\nm${"\n<b>> </b>".repeat(4)}`);
   });
 
   it("clears the input element’s value", () => {
-    const hasIn = new CoAnMoPluginCli("", "", ".mock-input-el", "", mockDoc);
+    const hasIn = new CoAnMoPluginCli(
+      "",
+      "",
+      ".mock-input-el",
+      "",
+      mockDoc,
+      ""
+    );
     mockInputEl.value = "user’s text";
     expect(hasIn.run("nosuch command")).toBe(
       "ERROR: No such action 'nosuch' - try 'help'"
@@ -302,10 +359,11 @@ describe("run()", () => {
       "v1",
       ".mock-input-el",
       ".mock-output-el",
-      mockDoc
+      mockDoc,
+      "meta"
     );
     hasInOut.addActions([mockAction]);
-    expect(mockOutputEl.innerHTML).toBe("foo v1");
+    expect(mockOutputEl.innerHTML).toBe("foo v1\nmeta");
     expect(hasInOut.run("  x  123")).toBe(
       "ERROR: No such action 'x' - try 'help'"
     );
@@ -313,7 +371,7 @@ describe("run()", () => {
       "ERROR: No such action 'mockaction!' - try 'help'"
     );
     expect(mockOutputEl.innerHTML).toBe(
-      "foo v1\n" +
+      "foo v1\nmeta\n" +
         "<b>ERROR: No such action 'x' - try 'help'</b>\n" +
         "<b>ERROR: No such action 'mockaction!' - try 'help'</b>"
     );
@@ -325,10 +383,11 @@ describe("run()", () => {
       "V",
       ".mock-input-el",
       ".mock-output-el",
-      mockDoc
+      mockDoc,
+      "M"
     );
     hasInOut.addActions([mockAction]);
-    expect(mockOutputEl.innerHTML).toBe("N V");
+    expect(mockOutputEl.innerHTML).toBe("N V\nM");
     expect(argsSpy).toEqual([]);
     expect(contextSpy).toEqual({});
     expect(hasInOut.run("  mockaction 123    456")).toBe("mock result");
@@ -338,10 +397,11 @@ describe("run()", () => {
     expect(contextSpy.doc).toBe(mockDoc);
     expect(contextSpy.name).toBe("N");
     expect(contextSpy.version).toBe("V");
+    expect(contextSpy.meta).toBe("M");
     expect(hasInOut.run("MOCKACTION    Arg1 ARG2   ")).toBe("mock result");
     expect(argsSpy).toEqual(["Arg1", "ARG2"]);
     expect(mockOutputEl.innerHTML).toBe(
-      "N V\n" +
+      "N V\nM\n" +
         "<b>> mockaction 123 456</b>\n" +
         "mock result\n" +
         "<b>> mockaction Arg1 ARG2</b>\n" +

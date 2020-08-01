@@ -7,6 +7,7 @@ export interface ActionContextI {
   $stdout: HTMLElement | null;
   actions: ActionI[];
   doc: Document;
+  meta: string;
   name: string;
   version: string;
 }
@@ -28,11 +29,13 @@ export class CoAnMoPluginCli {
     private version: string,
     stdinSelector: string,
     stdoutSelector: string,
-    private doc: HTMLDocument
+    private doc: HTMLDocument,
+    private meta: string
   ) {
     this.$stdin = doc.querySelector(stdinSelector);
     this.$stdout = doc.querySelector(stdoutSelector);
     this.log(`${name} ${version}`);
+    this.log(`${meta}`);
 
     if (this.$stdin)
       this.$stdin.addEventListener("keydown", (evt: KeyboardEvent) => {
@@ -84,6 +87,7 @@ export class CoAnMoPluginCli {
         $stdout: this.$stdout,
         actions: this.actions,
         doc: this.doc,
+        meta: this.meta,
         name: this.name,
         version: this.version
       })
