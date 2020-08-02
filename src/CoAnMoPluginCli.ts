@@ -19,6 +19,26 @@ export interface ActionI {
   fn: (args: string[], context: ActionContextI) => string;
 }
 
+export interface ParsedCommandI {
+  actionName: string;
+  args: string[];
+  filter: RegExp;
+}
+
+export function parseCommand (command:string): ParsedCommandI {
+  const parts = command.trim().split(/\s+/);
+  const matches = parts[0].match(/^\/(.+)\/([igm]*)$/);
+  return matches ? {
+    actionName: parts[1].toLowerCase(), // because, iPad keyboard
+    args: parts.slice(2),
+    filter: RegExp(matches[1], matches[2])
+  } : {
+    actionName: parts[0].toLowerCase(),
+    args: parts.slice(1),
+    filter: /^.?/ // matches everything
+  }
+}
+
 export class CoAnMoPluginCli {
   private $stdin: HTMLInputElement | null;
   private $stdout: HTMLElement | null;
@@ -75,13 +95,13 @@ export class CoAnMoPluginCli {
   run(command: string): string | void {
     if (!this.$stdin) return;
     this.$stdin.value = "";
-    const [actionName, ...args] = command.trim().split(/\s+/);
-    const actionNameLc = actionName.toLowerCase(); // because, iPad keyboard
+    const { actionName, args, filter } = parseCommand(command);
     if (actionName === "") return this.log("> ");
-    const action = this.actions.find(actn => actn.name === actionNameLc);
+    if (! filter.test(this.meta)) return;
+    const action = this.actions.find(actn => actn.name === actionName);
     if (!action)
-      return this.log(`ERROR: No such action '${actionNameLc}' - try 'help'`);
-    this.log(`> ${actionNameLc} ${args.join(" ")}`);
+      return this.log(`ERROR: No such action '${actionName}' - try 'help'`);
+    this.log(`> ${actionName} ${args.join(" ")}`);
     return this.log(
       action.fn(args, {
         $stdout: this.$stdout,

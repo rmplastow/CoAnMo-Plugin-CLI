@@ -1,6 +1,19 @@
 import "./CoAnMoPluginCli.css";
 // Re-export some generally useful actions.
 export { actions as CoAnMoPluginCliActions } from "./Actions/actions";
+export function parseCommand(command) {
+    var parts = command.trim().split(/\s+/);
+    var matches = parts[0].match(/^\/(.+)\/([igm]*)$/);
+    return matches ? {
+        actionName: parts[1].toLowerCase(),
+        args: parts.slice(2),
+        filter: RegExp(matches[1], matches[2])
+    } : {
+        actionName: parts[0].toLowerCase(),
+        args: parts.slice(1),
+        filter: /^.?/ // matches everything
+    };
+}
 var CoAnMoPluginCli = /** @class */ (function () {
     function CoAnMoPluginCli(name, version, stdinSelector, stdoutSelector, doc, meta) {
         var _this = this;
@@ -52,14 +65,15 @@ var CoAnMoPluginCli = /** @class */ (function () {
         if (!this.$stdin)
             return;
         this.$stdin.value = "";
-        var _a = command.trim().split(/\s+/), actionName = _a[0], args = _a.slice(1);
-        var actionNameLc = actionName.toLowerCase(); // because, iPad keyboard
+        var _a = parseCommand(command), actionName = _a.actionName, args = _a.args, filter = _a.filter;
         if (actionName === "")
             return this.log("> ");
-        var action = this.actions.find(function (actn) { return actn.name === actionNameLc; });
+        if (!filter.test(this.meta))
+            return;
+        var action = this.actions.find(function (actn) { return actn.name === actionName; });
         if (!action)
-            return this.log("ERROR: No such action '" + actionNameLc + "' - try 'help'");
-        this.log("> " + actionNameLc + " " + args.join(" "));
+            return this.log("ERROR: No such action '" + actionName + "' - try 'help'");
+        this.log("> " + actionName + " " + args.join(" "));
         return this.log(action.fn(args, {
             $stdout: this.$stdout,
             actions: this.actions,

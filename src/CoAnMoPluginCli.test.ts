@@ -1,4 +1,9 @@
-import { ActionContextI, CoAnMoPluginCli } from "./CoAnMoPluginCli";
+import {
+  ActionContextI,
+  CoAnMoPluginCli,
+  parseCommand,
+  ParsedCommandI
+} from "./CoAnMoPluginCli";
 
 // Mocks and spies.
 
@@ -52,6 +57,32 @@ const mockAction = {
     return "mock result";
   }
 };
+
+// Private functions.
+
+describe("parseCommand()", () => {
+  it("returns an empty ParsedCommandI if the command argument is an empty string", () => {
+    expect(parseCommand("")).toEqual({
+      actionName: "",
+      args: [],
+      filter: /^.?/,
+    } as ParsedCommandI);
+  });
+  it("parses the command as expected if no filter is present", () => {
+    expect(parseCommand("mockaction foo bar")).toEqual({
+      actionName: "mockaction",
+      args: ["foo", "bar"],
+      filter: /^.?/,
+    } as ParsedCommandI);
+  });
+  it("parses the command as expected if a filter is present", () => {
+    expect(parseCommand("/metastring/i mockaction foo bar")).toEqual({
+      actionName: "mockaction",
+      args: ["foo", "bar"],
+      filter: /metastring/i,
+    } as ParsedCommandI);
+  });
+});
 
 // Constructor.
 
@@ -407,6 +438,60 @@ describe("run()", () => {
         "<b>> mockaction Arg1 ARG2</b>\n" +
         "mock result"
     );
+  });
+
+  it("runs the command when the filter matches the `meta` string", () => {
+    const hasInOut = new CoAnMoPluginCli(
+      "N",
+      "V",
+      ".mock-input-el",
+      ".mock-output-el",
+      mockDoc,
+      "MetaString"
+    );
+    hasInOut.addActions([mockAction]);
+    expect(mockOutputEl.innerHTML).toBe("N V\nMetaString");
+    expect(argsSpy).toEqual([]);
+    expect(contextSpy).toEqual({});
+    expect(hasInOut.run("/metastring/i mockaction foo bar")).toBe("mock result");
+    expect(argsSpy).toEqual(['foo','bar']);
+    expect(contextSpy.$stdout).toBe(mockOutputEl);
+    expect(contextSpy.actions).toEqual([mockAction]);
+    expect(contextSpy.doc).toBe(mockDoc);
+    expect(contextSpy.name).toBe("N");
+    expect(contextSpy.version).toBe("V");
+    expect(contextSpy.meta).toBe("MetaString");
+    expect(hasInOut.run("/^MetaStr/ mockaction 123")).toBe("mock result");
+    expect(argsSpy).toEqual(['123']);
+    expect(mockOutputEl.innerHTML).toBe(
+      "N V\nMetaString\n" +
+        "<b>> mockaction foo bar</b>\n" +
+        "mock result\n" +
+        "<b>> mockaction 123</b>\n" +
+        "mock result"
+    );
+  });
+
+  it("ignores the command when the filter does not match the `meta` string", () => {
+    const hasInOut = new CoAnMoPluginCli(
+      "N",
+      "V",
+      ".mock-input-el",
+      ".mock-output-el",
+      mockDoc,
+      "MetaString"
+    );
+    hasInOut.addActions([mockAction]);
+    expect(mockOutputEl.innerHTML).toBe("N V\nMetaString");
+    expect(argsSpy).toEqual([]);
+    expect(contextSpy).toEqual({});
+    expect(hasInOut.run("/metastring/ mockaction foo bar")).toBe(undefined);
+    expect(argsSpy).toEqual([]);
+    expect(contextSpy).toEqual({});
+    expect(hasInOut.run("/metastring-nah/i mockaction foo bar")).toBe(undefined);
+    expect(argsSpy).toEqual([]);
+    expect(contextSpy).toEqual({});
+    expect(mockOutputEl.innerHTML).toBe("N V\nMetaString");
   });
 
   beforeEach(() => {

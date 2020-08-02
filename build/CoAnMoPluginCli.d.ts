@@ -14,6 +14,12 @@ export interface ActionI {
     synopsis: string;
     fn: (args: string[], context: ActionContextI) => string;
 }
+export interface ParsedCommandI {
+    actionName: string;
+    args: string[];
+    filter: RegExp;
+}
+export declare function parseCommand(command: string): ParsedCommandI;
 export declare class CoAnMoPluginCli {
     private name;
     private version;
