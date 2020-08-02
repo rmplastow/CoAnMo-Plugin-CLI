@@ -47,6 +47,8 @@ const mockDoc = {
   }
 } as Document;
 
+const mockStorage = {} as Storage;
+
 const mockAction = {
   name: "mockaction",
   summary: "Summary of the mock action",
@@ -65,21 +67,21 @@ describe("parseCommand()", () => {
     expect(parseCommand("")).toEqual({
       actionName: "",
       args: [],
-      filter: /^.?/,
+      filter: /^.?/
     } as ParsedCommandI);
   });
   it("parses the command as expected if no filter is present", () => {
     expect(parseCommand("mockaction foo bar")).toEqual({
       actionName: "mockaction",
       args: ["foo", "bar"],
-      filter: /^.?/,
+      filter: /^.?/
     } as ParsedCommandI);
   });
   it("parses the command as expected if a filter is present", () => {
     expect(parseCommand("/metastring/i mockaction foo bar")).toEqual({
       actionName: "mockaction",
       args: ["foo", "bar"],
-      filter: /metastring/i,
+      filter: /metastring/i
     } as ParsedCommandI);
   });
 });
@@ -93,7 +95,8 @@ describe("constructor()", () => {
     ".no-such-element", // stdinSelector
     ".no-such-element", // stdoutSelector
     mockDoc, // doc
-    "test-meta" // meta
+    "test-meta", // meta
+    mockStorage // storage
   );
 
   test("a CoAnMoPluginCli instance has expected private properties", () => {
@@ -113,7 +116,8 @@ describe("constructor()", () => {
       ".mock-input-el",
       ".no-such-element",
       mockDoc,
-      "test-meta"
+      "test-meta",
+      mockStorage
     );
     expect(hasIn["$stdin"]).toBe(mockInputEl);
     expect(eventNameSpy).toBe("keydown");
@@ -127,7 +131,8 @@ describe("constructor()", () => {
       ".no-such-element",
       ".mock-output-el",
       mockDoc,
-      "test-meta"
+      "test-meta",
+      mockStorage
     );
     expect(hasOut["$stdout"]).toBe(mockOutputEl);
     expect(hasOut["$stdout"] && hasOut["$stdout"].innerHTML).toBe(
@@ -151,7 +156,15 @@ describe("constructor()", () => {
 
 describe("addActions()", () => {
   test("adding actions increases the length of the `actions` array", () => {
-    const minimal = new CoAnMoPluginCli("", "", "", "", mockDoc, "");
+    const minimal = new CoAnMoPluginCli(
+      "",
+      "",
+      "",
+      "",
+      mockDoc,
+      "",
+      mockStorage
+    );
     expect(minimal["actions"].length).toBe(0);
     minimal.addActions([]);
     expect(minimal["actions"].length).toBe(0);
@@ -169,7 +182,8 @@ describe("addActions()", () => {
       ".mock-input-el",
       ".mock-output-el",
       mockDoc,
-      "test-meta"
+      "test-meta",
+      mockStorage
     );
     expect(hasInOut.run("mockaction")).toBe(
       "ERROR: No such action 'mockaction' - try 'help'"
@@ -187,7 +201,8 @@ describe("focusOnInput()", () => {
       ".mock-input-el",
       "",
       mockDoc,
-      ""
+      "",
+      mockStorage
     );
     hasIn.focusOnInput();
     expect(focusSpy).toBe(true);
@@ -206,7 +221,8 @@ describe("log()", () => {
       ".mock-input-el",
       "",
       mockDoc,
-      ""
+      "",
+      mockStorage
     );
     expect(hasIn.log("will not be logged")).toBe("will not be logged");
     expect(mockOutputEl.innerHTML).toBe("");
@@ -219,7 +235,8 @@ describe("log()", () => {
       "",
       ".mock-output-el",
       mockDoc,
-      "m"
+      "m",
+      mockStorage
     );
     expect(mockOutputEl.innerHTML).toBe("n v\nm");
     expect(hasOut.log("first line")).toBe("first line");
@@ -235,7 +252,8 @@ describe("log()", () => {
       "",
       ".mock-output-el",
       mockDoc,
-      ""
+      "",
+      mockStorage
     );
     expect(mockOutputEl.innerHTML).toBe("");
     expect(hasOut.log("first line")).toBe("first line");
@@ -253,7 +271,8 @@ describe("log()", () => {
       "",
       ".mock-output-el",
       mockDoc,
-      ""
+      "",
+      mockStorage
     );
     expect(hasOut.log("> some command")).toBe("> some command");
     expect(mockOutputEl.innerHTML).toBe("<b>> some command</b>");
@@ -275,7 +294,8 @@ describe("log()", () => {
       "",
       ".mock-output-el",
       mockDoc,
-      ""
+      "",
+      mockStorage
     );
     mockOutputEl.innerHTML =
       "foo 1.2.3\n" +
@@ -317,7 +337,8 @@ describe("log()", () => {
       "",
       ".mock-output-el",
       mockDoc,
-      "m"
+      "m",
+      mockStorage
     );
     expect(scrollXSpy).toBe(0); // the constructor logs "n v"
     expect(scrollYSpy).toBe(999999);
@@ -346,7 +367,8 @@ describe("run()", () => {
       "",
       ".mock-output-el",
       mockDoc,
-      ""
+      "",
+      mockStorage
     );
     expect(hasOut.run("will never be run")).toBe(undefined);
   });
@@ -358,7 +380,8 @@ describe("run()", () => {
       ".mock-input-el",
       ".mock-output-el",
       mockDoc,
-      "m"
+      "m",
+      mockStorage
     );
     expect(mockOutputEl.innerHTML).toBe("n v\nm");
     expect(hasInOut.run("")).toBe("> ");
@@ -375,7 +398,8 @@ describe("run()", () => {
       ".mock-input-el",
       "",
       mockDoc,
-      ""
+      "",
+      mockStorage
     );
     mockInputEl.value = "user’s text";
     expect(hasIn.run("nosuch command")).toBe(
@@ -391,7 +415,8 @@ describe("run()", () => {
       ".mock-input-el",
       ".mock-output-el",
       mockDoc,
-      "meta"
+      "meta",
+      mockStorage
     );
     hasInOut.addActions([mockAction]);
     expect(mockOutputEl.innerHTML).toBe("foo v1\nmeta");
@@ -415,7 +440,8 @@ describe("run()", () => {
       ".mock-input-el",
       ".mock-output-el",
       mockDoc,
-      "M"
+      "M",
+      mockStorage
     );
     hasInOut.addActions([mockAction]);
     expect(mockOutputEl.innerHTML).toBe("N V\nM");
@@ -425,6 +451,7 @@ describe("run()", () => {
     expect(argsSpy).toEqual(["123", "456"]);
     expect(contextSpy.$stdout).toBe(mockOutputEl);
     expect(contextSpy.actions).toEqual([mockAction]);
+    expect(contextSpy.config).toEqual({});
     expect(contextSpy.doc).toBe(mockDoc);
     expect(contextSpy.name).toBe("N");
     expect(contextSpy.version).toBe("V");
@@ -447,22 +474,26 @@ describe("run()", () => {
       ".mock-input-el",
       ".mock-output-el",
       mockDoc,
-      "MetaString"
+      "MetaString",
+      mockStorage
     );
     hasInOut.addActions([mockAction]);
     expect(mockOutputEl.innerHTML).toBe("N V\nMetaString");
     expect(argsSpy).toEqual([]);
     expect(contextSpy).toEqual({});
-    expect(hasInOut.run("/metastring/i mockaction foo bar")).toBe("mock result");
-    expect(argsSpy).toEqual(['foo','bar']);
+    expect(hasInOut.run("/metastring/i mockaction foo bar")).toBe(
+      "mock result"
+    );
+    expect(argsSpy).toEqual(["foo", "bar"]);
     expect(contextSpy.$stdout).toBe(mockOutputEl);
     expect(contextSpy.actions).toEqual([mockAction]);
+    expect(contextSpy.config).toEqual({});
     expect(contextSpy.doc).toBe(mockDoc);
     expect(contextSpy.name).toBe("N");
     expect(contextSpy.version).toBe("V");
     expect(contextSpy.meta).toBe("MetaString");
     expect(hasInOut.run("/^MetaStr/ mockaction 123")).toBe("mock result");
-    expect(argsSpy).toEqual(['123']);
+    expect(argsSpy).toEqual(["123"]);
     expect(mockOutputEl.innerHTML).toBe(
       "N V\nMetaString\n" +
         "<b>> mockaction foo bar</b>\n" +
@@ -479,7 +510,8 @@ describe("run()", () => {
       ".mock-input-el",
       ".mock-output-el",
       mockDoc,
-      "MetaString"
+      "MetaString",
+      mockStorage
     );
     hasInOut.addActions([mockAction]);
     expect(mockOutputEl.innerHTML).toBe("N V\nMetaString");
@@ -488,7 +520,9 @@ describe("run()", () => {
     expect(hasInOut.run("/metastring/ mockaction foo bar")).toBe(undefined);
     expect(argsSpy).toEqual([]);
     expect(contextSpy).toEqual({});
-    expect(hasInOut.run("/metastring-nah/i mockaction foo bar")).toBe(undefined);
+    expect(hasInOut.run("/metastring-nah/i mockaction foo bar")).toBe(
+      undefined
+    );
     expect(argsSpy).toEqual([]);
     expect(contextSpy).toEqual({});
     expect(mockOutputEl.innerHTML).toBe("N V\nMetaString");

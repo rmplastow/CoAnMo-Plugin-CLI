@@ -4,23 +4,26 @@ export { actions as CoAnMoPluginCliActions } from "./Actions/actions";
 export function parseCommand(command) {
     var parts = command.trim().split(/\s+/);
     var matches = parts[0].match(/^\/(.+)\/([igm]*)$/);
-    return matches ? {
-        actionName: parts[1].toLowerCase(),
-        args: parts.slice(2),
-        filter: RegExp(matches[1], matches[2])
-    } : {
-        actionName: parts[0].toLowerCase(),
-        args: parts.slice(1),
-        filter: /^.?/ // matches everything
-    };
+    return matches
+        ? {
+            actionName: parts[1].toLowerCase(),
+            args: parts.slice(2),
+            filter: RegExp(matches[1], matches[2])
+        }
+        : {
+            actionName: parts[0].toLowerCase(),
+            args: parts.slice(1),
+            filter: /^.?/ // matches everything
+        };
 }
 var CoAnMoPluginCli = /** @class */ (function () {
-    function CoAnMoPluginCli(name, version, stdinSelector, stdoutSelector, doc, meta) {
+    function CoAnMoPluginCli(name, version, stdinSelector, stdoutSelector, doc, meta, storage) {
         var _this = this;
         this.name = name;
         this.version = version;
         this.doc = doc;
         this.meta = meta;
+        this.storage = storage;
         this.actions = [];
         this.$stdin = doc.querySelector(stdinSelector);
         this.$stdout = doc.querySelector(stdoutSelector);
@@ -77,6 +80,7 @@ var CoAnMoPluginCli = /** @class */ (function () {
         return this.log(action.fn(args, {
             $stdout: this.$stdout,
             actions: this.actions,
+            config: {},
             doc: this.doc,
             meta: this.meta,
             name: this.name,

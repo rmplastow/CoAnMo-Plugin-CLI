@@ -9,7 +9,8 @@ const cli = new CoAnMoPluginCli(
   ".stdin",
   ".stdout",
   document,
-  "UsageExample"
+  "UsageExample",
+  localStorage
 );
 
 cli.addActions(actions);

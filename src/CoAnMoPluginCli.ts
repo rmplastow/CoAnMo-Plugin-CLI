@@ -6,6 +6,7 @@ export { actions as CoAnMoPluginCliActions } from "./Actions/actions";
 export interface ActionContextI {
   $stdout: HTMLElement | null;
   actions: ActionI[];
+  config: { [key: string]: string };
   doc: Document;
   meta: string;
   name: string;
@@ -25,18 +26,20 @@ export interface ParsedCommandI {
   filter: RegExp;
 }
 
-export function parseCommand (command:string): ParsedCommandI {
+export function parseCommand(command: string): ParsedCommandI {
   const parts = command.trim().split(/\s+/);
   const matches = parts[0].match(/^\/(.+)\/([igm]*)$/);
-  return matches ? {
-    actionName: parts[1].toLowerCase(), // because, iPad keyboard
-    args: parts.slice(2),
-    filter: RegExp(matches[1], matches[2])
-  } : {
-    actionName: parts[0].toLowerCase(),
-    args: parts.slice(1),
-    filter: /^.?/ // matches everything
-  }
+  return matches
+    ? {
+        actionName: parts[1].toLowerCase(), // because, iPad keyboard
+        args: parts.slice(2),
+        filter: RegExp(matches[1], matches[2])
+      }
+    : {
+        actionName: parts[0].toLowerCase(),
+        args: parts.slice(1),
+        filter: /^.?/ // matches everything
+      };
 }
 
 export class CoAnMoPluginCli {
@@ -50,7 +53,8 @@ export class CoAnMoPluginCli {
     stdinSelector: string,
     stdoutSelector: string,
     private doc: HTMLDocument,
-    private meta: string
+    private meta: string,
+    private storage: Storage
   ) {
     this.$stdin = doc.querySelector(stdinSelector);
     this.$stdout = doc.querySelector(stdoutSelector);
@@ -97,7 +101,7 @@ export class CoAnMoPluginCli {
     this.$stdin.value = "";
     const { actionName, args, filter } = parseCommand(command);
     if (actionName === "") return this.log("> ");
-    if (! filter.test(this.meta)) return;
+    if (!filter.test(this.meta)) return;
     const action = this.actions.find(actn => actn.name === actionName);
     if (!action)
       return this.log(`ERROR: No such action '${actionName}' - try 'help'`);
@@ -106,6 +110,7 @@ export class CoAnMoPluginCli {
       action.fn(args, {
         $stdout: this.$stdout,
         actions: this.actions,
+        config: {},
         doc: this.doc,
         meta: this.meta,
         name: this.name,
