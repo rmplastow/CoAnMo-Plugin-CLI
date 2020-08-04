@@ -25,10 +25,25 @@ var CoAnMoPluginCli = /** @class */ (function () {
         this.meta = meta;
         this.storage = storage;
         this.actions = [];
+        this.store = {};
         this.$stdin = doc.querySelector(stdinSelector);
         this.$stdout = doc.querySelector(stdoutSelector);
         this.log(name + " " + version);
         this.log("" + meta);
+        var storeRaw = this.storage.getItem("CoAnMoPluginCli.store");
+        if (storeRaw) {
+            var store = void 0;
+            try {
+                store = JSON.parse(storeRaw);
+                if (typeof store !== "object" || store === null)
+                    this.log("ERROR: 'CoAnMoPluginCli.store' is not an object");
+                // @TODO check that all values are strings
+            }
+            catch (err) {
+                this.log("ERROR: Cannot parse 'CoAnMoPluginCli.store':\n  " + err);
+            }
+            this.store = store;
+        }
         if (this.$stdin)
             this.$stdin.addEventListener("keydown", function (evt) {
                 if (_this.$stdin && evt.key === "Enter")
@@ -65,6 +80,7 @@ var CoAnMoPluginCli = /** @class */ (function () {
         return message;
     };
     CoAnMoPluginCli.prototype.run = function (command) {
+        var _this = this;
         if (!this.$stdin)
             return;
         this.$stdin.value = "";
@@ -80,10 +96,14 @@ var CoAnMoPluginCli = /** @class */ (function () {
         return this.log(action.fn(args, {
             $stdout: this.$stdout,
             actions: this.actions,
-            config: {},
             doc: this.doc,
             meta: this.meta,
             name: this.name,
+            setStore: function (newStore) {
+                _this.storage.setItem("CoAnMoPluginCli.store", JSON.stringify(newStore));
+                _this.store = newStore;
+            },
+            store: this.store,
             version: this.version
         }));
     };

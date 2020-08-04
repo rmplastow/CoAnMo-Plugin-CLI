@@ -3,12 +3,15 @@ export { actions as CoAnMoPluginCliActions } from "./Actions/actions";
 export interface ActionContextI {
     $stdout: HTMLElement | null;
     actions: ActionI[];
-    config: {
-        [key: string]: string;
-    };
     doc: Document;
     meta: string;
     name: string;
+    setStore: (newStore: {
+        [key: string]: string;
+    }) => void;
+    store: {
+        [key: string]: string;
+    };
     version: string;
 }
 export interface ActionI {
@@ -32,6 +35,7 @@ export declare class CoAnMoPluginCli {
     private $stdin;
     private $stdout;
     private actions;
+    private store;
     constructor(name: string, version: string, stdinSelector: string, stdoutSelector: string, doc: HTMLDocument, meta: string, storage: Storage);
     addActions(actions: ActionI[]): void;
     focusOnInput(): void;

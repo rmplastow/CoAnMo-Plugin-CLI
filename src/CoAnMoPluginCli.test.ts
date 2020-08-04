@@ -47,7 +47,14 @@ const mockDoc = {
   }
 } as Document;
 
-const mockStorage = {} as Storage;
+const mockStorage = ({
+  getItem(key: string): string {
+    return "{}";
+  },
+  setItem(key: string, value: string): void {
+    return;
+  }
+} as unknown) as Storage;
 
 const mockAction = {
   name: "mockaction",
@@ -451,7 +458,7 @@ describe("run()", () => {
     expect(argsSpy).toEqual(["123", "456"]);
     expect(contextSpy.$stdout).toBe(mockOutputEl);
     expect(contextSpy.actions).toEqual([mockAction]);
-    expect(contextSpy.config).toEqual({});
+    expect(contextSpy.store).toEqual({});
     expect(contextSpy.doc).toBe(mockDoc);
     expect(contextSpy.name).toBe("N");
     expect(contextSpy.version).toBe("V");
@@ -487,7 +494,7 @@ describe("run()", () => {
     expect(argsSpy).toEqual(["foo", "bar"]);
     expect(contextSpy.$stdout).toBe(mockOutputEl);
     expect(contextSpy.actions).toEqual([mockAction]);
-    expect(contextSpy.config).toEqual({});
+    expect(contextSpy.store).toEqual({});
     expect(contextSpy.doc).toBe(mockDoc);
     expect(contextSpy.name).toBe("N");
     expect(contextSpy.version).toBe("V");
