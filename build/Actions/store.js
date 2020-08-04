@@ -9,7 +9,9 @@ export function indefiniteArticleType(value) {
     if (Array.isArray(value))
         return "an array";
     if (value === null)
-        return "null";
+        return "null"; // not 'a null'
+    if (value === undefined)
+        return "undefined"; // not 'an undefined'
     var type = typeof value;
     return "a" + ("aeiou".includes(type.slice(0, 1)) ? "n" : "") + " " + type;
 }
@@ -42,7 +44,7 @@ export var store = {
         }
         setStore(newStore);
         var keyTally = Object.keys(newStore).length;
-        return "stored an object containing " + keyTally + " values" + (keyTally === 1 ? "" : "s");
+        return "stored an object containing " + keyTally + " value" + (keyTally === 1 ? "" : "s");
     }
 };
 // store { "arr":[456], "boo":true, "nul":null, "num":123, "obj":{}, "str":"456" }

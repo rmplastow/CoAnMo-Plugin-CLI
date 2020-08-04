@@ -7,10 +7,10 @@ export interface ActionContextI {
     meta: string;
     name: string;
     setStore: (newStore: {
-        [key: string]: string;
+        [key: string]: boolean | number | string;
     }) => void;
     store: {
-        [key: string]: string;
+        [key: string]: boolean | number | string;
     };
     version: string;
 }

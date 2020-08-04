@@ -9,8 +9,8 @@ export interface ActionContextI {
   doc: Document;
   meta: string;
   name: string;
-  setStore: (newStore: { [key: string]: string }) => void;
-  store: { [key: string]: string };
+  setStore: (newStore: { [key: string]: boolean | number | string }) => void;
+  store: { [key: string]: boolean | number | string };
   version: string;
 }
 
@@ -47,7 +47,7 @@ export class CoAnMoPluginCli {
   private $stdin: HTMLInputElement | null;
   private $stdout: HTMLElement | null;
   private actions: ActionI[] = [];
-  private store: { [key: string]: string } = {};
+  private store: { [key: string]: boolean | number | string } = {};
 
   constructor(
     private name: string,
@@ -129,7 +129,7 @@ export class CoAnMoPluginCli {
         doc: this.doc,
         meta: this.meta,
         name: this.name,
-        setStore: (newStore: { [key: string]: string }) => {
+        setStore: (newStore: { [key: string]: boolean | number | string }) => {
           this.storage.setItem(
             "CoAnMoPluginCli.store",
             JSON.stringify(newStore)

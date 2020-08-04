@@ -8,7 +8,12 @@ const mockContext: ActionContextI = {
   } as HTMLElement,
   actions: [],
   doc: {} as Document,
+  meta: "Mock-Meta",
   name: "Mock-Clear",
+  setStore() {
+    return;
+  },
+  store: {},
   version: "1.2.3"
 };
 

@@ -2,7 +2,8 @@ import { ActionI, ActionContextI } from "../CoAnMoPluginCli";
 
 export function indefiniteArticleType(value: unknown) {
   if (Array.isArray(value)) return "an array";
-  if (value === null) return "null";
+  if (value === null) return "null"; // not 'a null'
+  if (value === undefined) return "undefined"; // not 'an undefined'
   const type = typeof value;
   return `a${"aeiou".includes(type.slice(0, 1)) ? "n" : ""} ${type}`;
 }
@@ -14,7 +15,7 @@ export const store: ActionI = {
   fn(args: string[], context: ActionContextI) {
     const { setStore, store } = context;
     if (args.length === 0) return JSON.stringify(store, null, "  ");
-    let newStore: { [key: string]: string };
+    let newStore: { [key: string]: boolean | number | string };
     try {
       newStore = JSON.parse(args.join(" "));
       const iaType = indefiniteArticleType(newStore);
@@ -39,7 +40,7 @@ export const store: ActionI = {
     }
     setStore(newStore);
     const keyTally = Object.keys(newStore).length;
-    return `stored an object containing ${keyTally} values${
+    return `stored an object containing ${keyTally} value${
       keyTally === 1 ? "" : "s"
     }`;
   }

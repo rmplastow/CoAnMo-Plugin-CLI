@@ -15,7 +15,12 @@ const mockContext: ActionContextI = {
   $stdout: null,
   actions: [mockAction],
   doc: {} as Document,
+  meta: "Mock-Meta",
   name: "Mock-Help",
+  setStore() {
+    return;
+  },
+  store: {},
   version: "1.2.3"
 };
 
