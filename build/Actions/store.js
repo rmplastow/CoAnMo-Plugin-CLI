@@ -18,7 +18,19 @@ export function indefiniteArticleType(value) {
 export var store = {
     name: "store",
     summary: "Manages the `store` object",
-    synopsis: "@TODO write 'store' synopsis",
+    synopsis: [
+        "Get the CoAnMo’s current `store` object:",
+        "  > store",
+        "Replace the current `store` object:",
+        "  > store { \"b\":true, \"n\":1 ,\"str\":\"!\" }",
+        "It can’t be deleted, but you can:",
+        "  > store { }",
+        "The `store` object is persisted using",
+        "localStorage.setItem(), in the key",
+        "'CoAnMoPluginCli.store'. It can be used",
+        "to store any kind of settings. For",
+        "example, log-in credentials."
+    ].join("\n"),
     fn: function (args, context) {
         var setStore = context.setStore, store = context.store;
         if (args.length === 0)
