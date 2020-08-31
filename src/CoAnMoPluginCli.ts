@@ -128,7 +128,7 @@ export class CoAnMoPluginCli {
         $stdout: this.$stdout,
         actions: this.actions,
         doc: this.doc,
-        log: this.log,
+        log: this.log.bind(this),
         meta: this.meta,
         name: this.name,
         setStore: (newStore: { [key: string]: boolean | number | string }) => {
