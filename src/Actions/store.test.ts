@@ -8,6 +8,7 @@ const mockContext: ActionContextI = {
   $stdout: null,
   actions: [],
   doc: {} as Document,
+  log: () => "Mock-Log",
   meta: "MockMeta",
   name: "Mock-Store",
   setStore(newStore: { [key: string]: boolean | number | string }) {

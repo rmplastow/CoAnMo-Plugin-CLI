@@ -97,6 +97,7 @@ var CoAnMoPluginCli = /** @class */ (function () {
             $stdout: this.$stdout,
             actions: this.actions,
             doc: this.doc,
+            log: this.log,
             meta: this.meta,
             name: this.name,
             setStore: function (newStore) {

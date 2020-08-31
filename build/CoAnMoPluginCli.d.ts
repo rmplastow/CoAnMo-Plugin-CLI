@@ -4,6 +4,7 @@ export interface ActionContextI {
     $stdout: HTMLElement | null;
     actions: ActionI[];
     doc: Document;
+    log: (message: string) => string;
     meta: string;
     name: string;
     setStore: (newStore: {

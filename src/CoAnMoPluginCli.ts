@@ -7,6 +7,7 @@ export interface ActionContextI {
   $stdout: HTMLElement | null;
   actions: ActionI[];
   doc: Document;
+  log: (message: string) => string;
   meta: string;
   name: string;
   setStore: (newStore: { [key: string]: boolean | number | string }) => void;
@@ -127,6 +128,7 @@ export class CoAnMoPluginCli {
         $stdout: this.$stdout,
         actions: this.actions,
         doc: this.doc,
+        log: this.log,
         meta: this.meta,
         name: this.name,
         setStore: (newStore: { [key: string]: boolean | number | string }) => {

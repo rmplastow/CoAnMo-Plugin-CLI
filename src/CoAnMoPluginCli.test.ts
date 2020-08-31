@@ -458,17 +458,19 @@ describe("run()", () => {
     expect(argsSpy).toEqual(["123", "456"]);
     expect(contextSpy.$stdout).toBe(mockOutputEl);
     expect(contextSpy.actions).toEqual([mockAction]);
-    expect(contextSpy.store).toEqual({});
     expect(contextSpy.doc).toBe(mockDoc);
-    expect(contextSpy.name).toBe("N");
-    expect(contextSpy.version).toBe("V");
+    expect(contextSpy.log("Some message")).toBe("Some message");
     expect(contextSpy.meta).toBe("M");
+    expect(contextSpy.name).toBe("N");
+    expect(contextSpy.store).toEqual({});
+    expect(contextSpy.version).toBe("V");
     expect(hasInOut.run("MOCKACTION    Arg1 ARG2   ")).toBe("mock result");
     expect(argsSpy).toEqual(["Arg1", "ARG2"]);
     expect(mockOutputEl.innerHTML).toBe(
       "N V\nM\n" +
         "<b>> mockaction 123 456</b>\n" +
         "mock result\n" +
+        "Some message\n" +
         "<b>> mockaction Arg1 ARG2</b>\n" +
         "mock result"
     );
@@ -494,17 +496,19 @@ describe("run()", () => {
     expect(argsSpy).toEqual(["foo", "bar"]);
     expect(contextSpy.$stdout).toBe(mockOutputEl);
     expect(contextSpy.actions).toEqual([mockAction]);
-    expect(contextSpy.store).toEqual({});
     expect(contextSpy.doc).toBe(mockDoc);
-    expect(contextSpy.name).toBe("N");
-    expect(contextSpy.version).toBe("V");
+    expect(contextSpy.log("A message")).toBe("A message");
     expect(contextSpy.meta).toBe("MetaString");
+    expect(contextSpy.name).toBe("N");
+    expect(contextSpy.store).toEqual({});
+    expect(contextSpy.version).toBe("V");
     expect(hasInOut.run("/^MetaStr/ mockaction 123")).toBe("mock result");
     expect(argsSpy).toEqual(["123"]);
     expect(mockOutputEl.innerHTML).toBe(
       "N V\nMetaString\n" +
         "<b>> mockaction foo bar</b>\n" +
         "mock result\n" +
+        "A message\n" +
         "<b>> mockaction 123</b>\n" +
         "mock result"
     );
